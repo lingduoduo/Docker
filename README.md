@@ -93,3 +93,89 @@ docker pull
 docker run
 
 docker exec
+
+##### Docker API
+
+Docker also provides an API for interacting with the Docker Engine. This is particularly useful if there’s a need to create or manage containers from within applications. Almost every operation supported by the Docker CLI can be done via the API.
+
+The simplest way to get started by Docker API is to use curl to send an API request. For Windows Docker hosts, we can reach the TCP endpoint:
+
+curl http://localhost:2375/images/json
+
+[{"Containers":-1,"Created":1511223798,"Id":"sha256:f2a91732366c0332ccd7afd2a5c4ff2b9af81f549370f7a19acd460f87686bc7","Labels":null,"ParentId":"","RepoDigests":["hello-world@sha256:66ef312bbac49c39a89aa9bcc3cb4f3c9e7de3788c944158df3ee0176d32b751"],"RepoTags":["hello-world:latest"],"SharedSize":-1,"Size":1848,"VirtualSize":1848}]
+
+On Linux and Mac, the same effect can be achieved by using curl to send requests to the UNIX socket:
+
+curl --unix-socket /var/run/docker.sock -X POST http://images/json
+
+[{"Containers":-1,"Created":1511223798,"Id":"sha256:f2a91732366c0332ccd7afd2a5c4ff2b9af81f549370f7a19acd460f87686bc7","Labels":null,"ParentId":"","RepoDigests":["hello-world@sha256:66ef312bbac49c39a89aa9bcc3cb4f3c9e7de3788c944158df3ee0176d32b751"],"RepoTags":["hello-world:latest"],"SharedSize":-1,"Size":1848,"VirtualSize":1848}]
+
+#### Docker Compose
+
+Docker Compose is a tool for defining and running multi-container applications. Much like how Docker allows you to build an image for your application and run it in your container, Compose use the same images in combination with a definition file (known as the *compose file*) to build, launch, and run multi-container applications, including dependent and linked containers.
+
+The most common use case for Docker Compose is to run applications and their dependent services (such as databases and caching providers) in the same simple, streamlined manner as running a single container application. 
+
+#### HANDS-ON DOCKER
+
+Open a terminal window and type the following command:
+
+docker info 
+
+#### Working with Docker Images
+
+Let’s look at the available Docker images. To do this, type the following command:
+
+**docker image ls** able to look at the available Docker images
+
+The **docker inspect** command provides a lot of information about the image. Of importance are the image properties **Env**, **Cmd**, and **Layers**, which tell us about these environment variables. They tell us which executable runs when the container is started and the layers associated with these environment variables.
+
+docker image inspect hello-world | jq .[].Config.Env
+
+[
+
+ "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+]
+
+Here’s the startup command on the container:
+
+docker image inspect hello-world | jq .[].Config.Cmd
+
+[
+
+ "/hello"
+
+]
+
+Here are the layers associated with the image:
+
+docker image inspect hello-world | jq .[].RootFS.Layers
+
+[
+
+ "sha256:f999ae22f308fea973e5a25b57699b5daf6b0f1150ac2a5c2ea9d7fecee50fdf"
+
+]
+
+Every Docker image has an associated tag. Tags typically include names and version labels. While it is not mandatory to associate a version tag with a Docker image name, these tags make it easier to roll back to previous versions. Without a tag name, Docker must fetch the image with the latest tag. You can also provide a tag name to force-fetch a tagged image.
+
+Docker Store lists the different tags associated with the image. If you’re looking for a specific tag/version, it’s best to check Docker Store. Figure [2-3](https://learning.oreilly.com/library/view/practical-docker-with/9781484237847/html/463857_1_En_2_Chapter.xhtml#Fig3) shows a typical tag listing of an image.
+
+docker pull nginx:1.12-alpine-perl
+
+docker pull docker-private.registry:1337/nginx
+
+docker login docker-private.registry:1337 - If the registry needs authentication, you can log in to the registry by typing docker login:
+
+docker run -p 80:80 nginx
+
+To list all the running containers, you can type docker ps - docker ps
+
+docker stop <container-id>
+
+docker ps shows the active, running containers
+
+docker ps -a list all the containers
+
+docker rm <container-id>  remove the containers 
