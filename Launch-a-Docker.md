@@ -67,3 +67,10 @@ docker run -d --name redisMapped -v "$PWD/data":/data redis
 ```
 
 #### Step 6 - Running A Container In The Foreground
+
+ If we wanted to interact with the container (for example, to access a command shell) instead of just seeing the output, we'd include the options *-ti*.
+
+As well as defining whether the container runs in the background or foreground, certain images allow you to override the command used to launch the image. Being able to replace the default command makes it possible to have a single image that can be re-purposed in multiple ways. For example, the Ubuntu image can either run OS commands or run an interactive bash prompt using */bin/bash*
+
+The command `docker run ubuntu ps` launches an Ubuntu container and executes the command *ps* to view all the processes running in a container.
+
