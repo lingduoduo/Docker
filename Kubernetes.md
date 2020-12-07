@@ -10,7 +10,7 @@
 
 `Kubernetes发展非常迅速，已经成为容器编排领域的领导者，接下来我们将讲解Kubernetes中涉及到的一些主要概念。`
 
-#### `**1、Pod**`
+#### `1、Pod`
 
 `Pod是一组紧密关联的容器集合，支持多个容器在一个Pod中共享网络和文件系统，可以通过进程间通信和文件共享这种简单高效的方式完成服务，是Kubernetes调度的基本单位。Pod的设计理念是每个Pod都有一个唯一的IP。`
 
@@ -27,7 +27,7 @@
 - `Init container在所有容器运行之前执行，常用来初始化配置`
 - `容器生命周期钩子函数，用于监听容器生命周期的特定事件，并在事件发生时执行已注册的回调函数，支持两种钩子函数：postStart和preStop，前者是在容器启动后执行，后者是在容器停止前执行`
 
-#### `**2、Namespace**`
+#### `2、Namespace`
 
 `Namespace（命名空间）是对一组资源和对象的抽象集合，比如可以用来将系统内部的对象划分为不同的项目组或者用户组。常见的pod、service、replicaSet和deployment等都是属于某一个namespace的(默认是default)，而node, persistentVolumes等则不属于任何namespace。`
 
@@ -44,7 +44,7 @@
 3. `PersistentVolumes是不属于任何namespace的，但PersistentVolumeClaim是属于某个特定namespace的。`
 4. `Events是否属于namespace取决于产生events的对象。`
 
-#### `**3、Node**`
+#### `3、Node`
 
 `Node是Pod真正运行的主机，可以是物理机也可以是虚拟机。Node本质上不是Kubernetes来创建的， Kubernetes只是管理Node上的资源。为了管理Pod，每个Node节点上至少需要运行container runtime（Docker）、kubelet和kube-proxy服务。`
 
@@ -73,7 +73,7 @@
 
 `设置了污点的Node将根据taint的effect：NoSchedule、PreferNoSchedule、NoExecute和Pod之间产生互斥的关系，Pod将在一定程度上不会被调度到Node上。 但我们可以在Pod上设置容忍(Toleration)，意思是设置了容忍的Pod将可以容忍污点的存在，可以被调度到存在污点的Node上。`
 
-#### `**4、Service**`
+#### `4、Service`
 
 `Service是对一组提供相同功能的Pods的抽象，并为他们提供一个统一的入口，借助 Service 应用可以方便的实现服务发现与负载均衡，并实现应用的零宕机升级。Service通过标签(label)来选取后端Pod，一般配合ReplicaSet或者Deployment来保证后端容器的正常运行。`
 
@@ -86,7 +86,7 @@
 
 `另外，也可以将已有的服务以Service的形式加入到Kubernetes集群中来，只需要在创建 Service 的时候不指定Label selector，而是在Service创建好后手动为其添加endpoint。`
 
-#### `**5、Volume 存储卷**`
+#### `5、Volume 存储卷`
 
 `默认情况下容器的数据是非持久化的，容器消亡以后数据也会跟着丢失，所以Docker提供了Volume机制以便将数据持久化存储。Kubernetes提供了更强大的Volume机制和插件，解决了容器数据持久化以及容器间共享数据的问题。`
 
@@ -125,7 +125,7 @@
 - `Recycle，删除数据，即 rm -rf /thevolume/* (只有NFS和HostPath支持)`
 - `Delete，删除存储资源`
 
-#### `**7、Deployment 无状态应用**`
+#### `7、Deployment 无状态应用`
 
 `一般情况下我们不需要手动创建Pod实例，而是采用更高一层的抽象或定义来管理Pod，针对无状态类型的应用，Kubernetes使用Deloyment的Controller对象与之对应。其典型的应用场景包括：`
 
@@ -161,7 +161,7 @@
 - `使用Deployment来创建ReplicaSet。ReplicaSet在后台创建pod，检查启动状态，看它是成功还是失败。`
 - `当执行更新操作时，会创建一个新的ReplicaSet，Deployment会按照控制的速率将pod从旧的ReplicaSet移 动到新的ReplicaSet中`
 
-#### `**8、StatefulSet 有状态应用**`
+#### `8、StatefulSet 有状态应用`
 
 `Deployments和ReplicaSets是为无状态服务设计的，那么StatefulSet则是为了有状态服务而设计，其应用场景包括：`
 
@@ -175,7 +175,7 @@
 - `OnDelete:当 .spec.template更新时，并不立即删除旧的Pod，而是等待用户手动删除这些旧Pod后自动创建新Pod。这是默认的更新策略，兼容v1.6版本的行为`
 - `RollingUpdate:当 .spec.template 更新时，自动删除旧的Pod并创建新Pod替换。在更新时这些Pod是按逆序的方式进行，依次删除、创建并等待Pod变成Ready状态才进行下一个Pod的更新。`
 
-#### `**9、DaemonSet 守护进程集**`
+#### `9、DaemonSet 守护进程集`
 
 `DaemonSet保证在特定或所有Node节点上都运行一个Pod实例，常用来部署一些集群的日志采集、监控或者其他系统管理应用。典型的应用包括:`
 
@@ -196,7 +196,7 @@
 - `OnDelete: 默认策略，更新模板后，只有手动删除了旧的Pod后才会创建新的Pod`
 - `RollingUpdate: 更新DaemonSet模版后，自动删除旧的Pod并创建新的Pod`
 
-#### `**10、Ingress**`
+#### `10、Ingress`
 
 `Kubernetes中的负载均衡我们主要用到了以下两种机制：`
 
@@ -212,11 +212,11 @@
 - `Kong`
 - `Openresty`
 
-#### `**11、Job & CronJob 任务和定时任务**`
+#### `11、Job & CronJob 任务和定时任务`
 
 `Job负责批量处理短暂的一次性任务 (short lived>CronJob即定时任务，就类似于Linux系统的crontab，在指定的时间周期运行指定的任务。`
 
-#### `**12、HPA（Horizontal Pod Autoscaling） 水平伸缩**`
+#### `12、HPA（Horizontal Pod Autoscaling） 水平伸缩`
 
 `Horizontal Pod Autoscaling可以根据CPU、内存使用率或应用自定义metrics自动扩展Pod数量 (支持replication controller、deployment和replica set)。`
 
@@ -234,7 +234,7 @@
 
 `可以通过如下命令创建HPA：kubectl autoscale deployment php-apache--cpu-percent=50--min=1--max=10`
 
-##### `**13、Service Account**`
+##### `13、Service Account`
 
 `Service account是为了方便Pod里面的进程调用Kubernetes API或其他外部服务而设计的`
 
@@ -242,7 +242,7 @@
 
 `Service Account为服务提供了一种方便的认证机制，但它不关心授权的问题。可以配合RBAC(Role Based Access Control)来为Service Account鉴权，通过定义Role、RoleBinding、ClusterRole、ClusterRoleBinding来对sa进行授权。`
 
-#### `**14、Secret 密钥**`
+#### `14、Secret 密钥`
 
 `Sercert-密钥解决了密码、token、密钥等敏感数据的配置问题，而不需要把这些敏感数据暴露到镜像或者Pod Spec中。Secret可以以Volume或者环境变量的方式使用。有如下三种类型：`
 
@@ -250,13 +250,13 @@
 - `Opaque:base64编码格式的Secret，用来存储密码、密钥等;`
 - `kubernetes.io/dockerconfigjson: 用来存储私有docker registry的认证信息。`
 
-#### `**15、ConfigMap 配置中心**`
+#### `15、ConfigMap 配置中心`
 
 `ConfigMap用于保存配置数据的键值对，可以用来保存单个属性，也可以用来保存配置文件。ConfigMap跟secret很类似，但它可以更方便地处理不包含敏感信息的字符串。ConfigMap可以通过三种方式在Pod中使用，三种分别方式为:设置环境变量、设置容器命令行参数以及在Volume中直接挂载文件或目录。`
 
 `可以使用 kubectl create configmap从文件、目录或者key-value字符串创建等创建 ConfigMap。也可以通过 kubectl create-f value.yaml 创建。`
 
-#### `**16、Resource Quotas 资源配额**`
+#### `16、Resource Quotas 资源配额`
 
 `资源配额(Resource Quotas)是用来限制用户资源用量的一种机制。`
 
