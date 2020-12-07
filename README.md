@@ -6,6 +6,7 @@ Now that we have Docker installed and running, let’s understand the different 
 
 A *layer* is a modification applied to a Docker image as represented by an instruction in a Dockerfile. Typically, a layer is created when a base image is changed—for example, consider a Dockerfile that looks like this:
 
+```
 FROM ubuntu
 
 Run mkdir /tmp/logs
@@ -13,6 +14,7 @@ Run mkdir /tmp/logs
 RUN apt-get install vim
 
 RUN apt-get install htop
+```
 
 Now in this case, Docker will consider Ubuntu image as the base image and add three layers:
 
