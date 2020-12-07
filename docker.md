@@ -1,3 +1,12 @@
+#### What is Docker
+
+- Docker is a platform that allows you to "build, shipa nd run any app, anywhere".Docker enables you to seperate your applications from your infrastructre so you can deliver software quickly.
+- Docker daemon listened for Docker API requests and manages Docker objects ushc as images, containers, networks, and volumes. A daemon can also communicate with other daemons to mange Docker servies.
+- Docker client is the primary way that many Docker users interact with Docker. When you use commands such as "docker run", the client sends these commands to docker daemon.
+- Docker registry stores Docker images. Docker Hub is a public registry that anyone can use, and Docker is configured to look for images on Docker Hub by default. 
+- Docker image is a read-only template with instructions for creating a Docker container. Often, an image is based on another image, with some additional customization.
+- Docker container is a runnable instance of an image. By default, a conatiner is relatively well isolated from other containers and its host machine. When a container is removed, any changes to its state that are not stored in persistent storage disappear.
+
 **Commands for Creating Docker Files**
 
 | Command        | Description                                                  |
@@ -49,18 +58,3 @@ where
 - --rm removes the container when it exits.
 - --name specifies a name for the container.
 - -p does port forwarding from host to the container (i.e., host:container) .
-
-**Kubernetes**
-
-When a microservice application is deployed in production, it usually has many running containers that need to be allocated the right amount of resources in response to user demands. Also, there is a need to ensure that the containers are online, are running, and are communicating with one another. The need to efficiently manage and coordinate clusters of containerized applications gave rise to Kubernetes.
-
-Kubernetes is a software system that addresses the concerns of deploying, scaling, and monitoring containers. Hence, it is called a container orchestrator. Examples of other container orchestrators in the wild are Docker Swarm, Mesos Marathon, and HashiCorp Nomad.
-
-Kubernetes was built and released by Google as an open source software, which is now managed by the Cloud Native Computing Foundation (CNCF) . Google Cloud Platform offers a managed Kubernetes service called Google Kubernetes Engine (GKE). Amazon Elastic Container Service for Kubernetes (EKS) also provides a managed Kubernetes service.
-
-**Components of Kubernetes**
-
-- Master node(s): Manages the Kubernetes cluster. There may be more than one master node in high availability mode for fault-tolerance purposes. In this case, only one is the master, and the others follow.
-- Worker node(s): Machine(s) that runs containerized applications that are scheduled as pod(s).
-
-``
