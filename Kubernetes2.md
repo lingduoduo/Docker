@@ -1,3 +1,37 @@
+### Kubernetes + Docker
+
+Docker
+
+Clients
+
+```
+docker build
+docker pull
+docker run
+
+docker run busybox:latest echo "Hello World"
+docker run busybox:latest ls /
+```
+
+- The -i flag starts an interactive container
+- The -t flag creates a pseudo-TTY that attaches stdin and stdout
+
+Docker_Hosts
+
+- Docker daemon - Docker Engine, Docker Server
+- Images - read-only templates used to create containers
+- Containers - lightweight and portable encapsulations of an environment in which to. run applications
+- If an image is a class, then a container is an instance of a class - a runtime object.  Container are created from images. Inside a container, if has all teh ibnaries and dependencies to run the application.
+
+Registry
+
+- A registry is where we store our images.
+- You can host your own registry, or you can use Docker's public registry which is called DockerHub
+- Inside a registry, images are stored in repositories.
+- Docker repository is a collection of different docker images with the same name, that have different tags, each tag usually represents a different version of the image.
+
+
+
 **Kubernetes**
 
 When a microservice application is deployed in production, it usually has many running containers that need to be allocated the right amount of resources in response to user demands. Also, there is a need to ensure that the containers are online, are running, and are communicating with one another. The need to efficiently manage and coordinate clusters of containerized applications gave rise to Kubernetes.
