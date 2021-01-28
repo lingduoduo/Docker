@@ -26,12 +26,14 @@ docker stop $(docker ps -a -q)
 docker rm $(docker ps -a -q)
 
 docker build -t lingh/docker .
-
+docker commit b26f87073 git/ling:1.0
 ```
 
-- Docker run, the -i flag starts an interactive container. The -t flag creates a pseudo-TTY that attaches stdin and stdout
+- Docker run, the -i flag starts an interactive container. The -t flag creates a pseudo-TTY that attaches stdin and stdout. 
 - Docker build command takes the path to the build context as an. argument. When build start, docker client would pack all the files in the build context into a. tarball tehn transfer the tarball file to the daemon. By default, docker would search for the Docker file in the buid context path.
 - Commit changes made in a Docker container. For example, Spin up a container from a base image. Install Git package in the container. Commit changes made in the container. Docker commit command would save the changes we made to the Docker container's file system to a new Image.
+- Each RUN command will. execute the command on the top writable layer of the container, then commit the container as a new image. The new image is used for the next step in the Docekrfile. So each RUN instruction will create a new image layer. It is recommended to chain the RUN instructions in the Dockerfile to reduce the number of image layers it creates. Sort Multi-line Arguments Alphanumerically.
+- CMD Instruction specifies what command. you want to run when the container starts up. Docker will use the default command defined in the base image.
 - 
 
 Docker_Hosts

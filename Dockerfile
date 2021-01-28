@@ -18,3 +18,13 @@ ENV PYTHONPATH "${PYTHONPATH}:/ml"
 WORKDIR /ml
 
 ENTRYPOINT ["python", "spotify_kubeflow/component/sdk/execution/run_component.py"]
+
+
+
+FROM ling:base
+RUN apt-get update -y && \
+	apt-get install -y && \
+	git \
+	vim \
+
+CMD ["echo", "hello world"]
