@@ -2,9 +2,7 @@
 
 Docker
 
-Clients
-
-docker build,  docker pull, docker run
+Clients - docker build,  docker pull, docker run
 
 ```
 docker run busybox:latest echo "Hello World"
@@ -31,10 +29,12 @@ docker commit b26f87073 git/ling:1.0
 
 - Docker run, the -i flag starts an interactive container. The -t flag creates a pseudo-TTY that attaches stdin and stdout. 
 - Docker build command takes the path to the build context as an. argument. When build start, docker client would pack all the files in the build context into a. tarball tehn transfer the tarball file to the daemon. By default, docker would search for the Docker file in the buid context path.
-- Commit changes made in a Docker container. For example, Spin up a container from a base image. Install Git package in the container. Commit changes made in the container. Docker commit command would save the changes we made to the Docker container's file system to a new Image.
-- Each RUN command will. execute the command on the top writable layer of the container, then commit the container as a new image. The new image is used for the next step in the Docekrfile. So each RUN instruction will create a new image layer. It is recommended to chain the RUN instructions in the Dockerfile to reduce the number of image layers it creates. Sort Multi-line Arguments Alphanumerically.
-- CMD Instruction specifies what command. you want to run when the container starts up. Docker will use the default command defined in the base image.
-- 
+  - Commit changes made in a Docker container. For example, Spin up a container from a base image. Install Git package in the container. Commit changes made in the container. Docker commit command would save the changes we made to the Docker container's file system to a new Image.
+  - Each RUN command will execute the command on the top writable layer of the container, then commit the container as a new image. The new image is used for the next step in the Docekrfile. So each RUN instruction will create a new image layer. It is recommended to chain the RUN instructions in the Dockerfile to reduce the number of image layers it creates. Sort Multi-line Arguments Alphanumerically.
+  - CMD Instruction specifies what command. you want to run when the container starts up. Docker will use the default command defined in the base image.
+  - Docker Cache. Each time Docker executes an. instruction it builds a new image layer. The next time, if the instruction doesn't change, Docker will simply reuse the existing layer. Sometime it has issues, e.g, aggressive caching. Specify with --no-cache option
+  - Copy Instruction copies new files or directories from build context and adds them to the file system of the container.   Use copy for the sake of transparency, unless you are absolutely sure you need ADD commands.
+  - Add Instruction can not only copy files, but also allow you to download a file from. internet and copy to the container. It also has the ability to automatically unpack compressed files.
 
 Docker_Hosts
 
