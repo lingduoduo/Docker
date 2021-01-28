@@ -4,29 +4,35 @@ Docker
 
 Clients
 
-```
-docker build
-docker pull
-docker run
+docker build,  docker pull, docker run
 
+```
 docker run busybox:latest echo "Hello World"
 docker run busybox:latest ls /
 docker run -d busybox:latest
 docker run -d busybox:latest sleep 1000
 docker run --name hello busybox:latest
 
+docker run -it -p 8888:8080 tomcat:latest
+
 docker ps
 docker ps -a
 docker run --rm busybox:latest sleep 1
 docker inspect ac5763c57b26226a63ea12d0048bf699c1a3ed33637651d9e0615a986c13c85f
+docker logs b26f87073ea60472b50040c629ccd532a18577f15496d9bfce319ddb2b964a26
 
 docker system prune
 docker stop $(docker ps -a -q)
 docker rm $(docker ps -a -q)
+
+docker build -t lingh/docker .
+
 ```
 
-- The -i flag starts an interactive container
-- The -t flag creates a pseudo-TTY that attaches stdin and stdout
+- Docker run, the -i flag starts an interactive container. The -t flag creates a pseudo-TTY that attaches stdin and stdout
+- Docker build command takes the path to the build context as an. argument. When build start, docker client would pack all the files in the build context into a. tarball tehn transfer the tarball file to the daemon. By default, docker would search for the Docker file in the buid context path.
+- Commit changes made in a Docker container. For example, Spin up a container from a base image. Install Git package in the container. Commit changes made in the container. Docker commit command would save the changes we made to the Docker container's file system to a new Image.
+- 
 
 Docker_Hosts
 
@@ -41,6 +47,12 @@ Registry
 - You can host your own registry, or you can use Docker's public registry which is called DockerHub
 - Inside a registry, images are stored in repositories.
 - Docker repository is a collection of different docker images with the same name, that have different tags, each tag usually represents a different version of the image.
+
+Image Layers
+
+- All changes made into the running containers will be written into the writable layer
+- When the container is deleted, the wirtable layer is also deleted, but the underlying image remains unchanged.
+- Multiple containers can sare access to the same underlying image.
 
 
 
