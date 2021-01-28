@@ -11,6 +11,18 @@ docker run
 
 docker run busybox:latest echo "Hello World"
 docker run busybox:latest ls /
+docker run -d busybox:latest
+docker run -d busybox:latest sleep 1000
+docker run --name hello busybox:latest
+
+docker ps
+docker ps -a
+docker run --rm busybox:latest sleep 1
+docker inspect ac5763c57b26226a63ea12d0048bf699c1a3ed33637651d9e0615a986c13c85f
+
+docker system prune
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
 ```
 
 - The -i flag starts an interactive container
@@ -29,6 +41,8 @@ Registry
 - You can host your own registry, or you can use Docker's public registry which is called DockerHub
 - Inside a registry, images are stored in repositories.
 - Docker repository is a collection of different docker images with the same name, that have different tags, each tag usually represents a different version of the image.
+
+
 
 
 
