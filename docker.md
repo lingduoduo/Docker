@@ -102,7 +102,10 @@ Registry
 - A registry is where we store our images.
 - You can host your own registry, or you can use Docker's public registry which is called DockerHub
 - Inside a registry, images are stored in repositories.
-- Docker repository is a collection of different docker images with the same name, that have different tags, each tag usually represents a different version of the image.
+- Docker repository is a collection of different docker images with the same name, that have different tags, each tag usually represents a different version of the image. 
+  - Docker will use latest as a default tag when no tag is provided. 
+  - A lot of repositories use it to tag the most up-to-date table image.  However, this is still only. a convention and is entirely not being enforced.
+  - Images which are tagged latest will not be updated automatically when a newer version of the image is pushed to the repository.
 
 Image Layers
 
@@ -110,11 +113,14 @@ Image Layers
 
 - When the container is deleted, the wirtable layer is also deleted, but the underlying image remains unchanged.
 
-- Multiple containers can sare access to the same underlying image.
+- Multiple containers can share access to the same underlying image.
 
   ```
   docker images
   
   docker tag 345867df0879  lingh/test
+  docker login --username=lingh
+  docker push lingh/test:0.01
+  
   ```
 
