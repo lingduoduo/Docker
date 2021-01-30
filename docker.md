@@ -121,6 +121,35 @@ Image Layers
   docker tag 345867df0879  lingh/test
   docker login --username=lingh
   docker push lingh/test:0.01
-  
   ```
+
+Docker Container Links
+
+- The main use for doker container links is when we build an application with a micro service architecture, we are able to run many independent componnents in different containers.
+- Docker creates a secure tunnel between the containers that doesn't. need to expose any ports externally on the container.
+
+Docker Compose
+
+- Manual linking contianers and configuring services become impractical when the number of containers grows.
+
+- Docker compose uses yaml files to store the configuration of all the containers, which removes the burden to maintain our scripts for docker orchestration.
+
+  ```
+  docker-compose up -d 
+  docker-compose ps
+  docker-compose logs -f
+  docker-compose logs dockerappname
+  docker-compose stop
+  docker-compose rm -all
+  docker-compose build
+  ```
+
+  - docker compose up starts up all the containers.
+  - docker compose ps checks the status of the containers managed by docker compose.
+  - docker compose logs outputs colored and aggregated logs for the composed-managed containers.
+  - docker compose logs  with -f outus appended log when the log grows.
+  - docker compose logs  with the container name in the end outputs the logs of a specific container.
+  - docker compose stop stops all the running containers without removing them.
+
+
 
