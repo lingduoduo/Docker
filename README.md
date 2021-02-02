@@ -1,3 +1,10 @@
+SKF
+https://www.kubeflow.org/
+
+Docker
+https://docs.docker.com/engine/reference/commandline/build/
+https://docs.docker.com/engine/reference/builder/
+
 ### UNDERSTANDING JARGON AROUND DOCKER
 
 Now that we have Docker installed and running, let’s understand the different terminologies that are associated with Docker.
