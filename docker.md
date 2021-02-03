@@ -40,6 +40,16 @@
 | docker kill CONTAINER_ID]    | Forcefully stop the container with [CONTAINER_ID] on the machine. |
 | docker rm [CONTAINER_ID]     | Remove the container with [CONTAINER_ID] from the machine.   |
 | docker rm $(docker ps -a -q) | Remove all containers from the machine.                      |
+| docker start |                     |
+| docker restart |                     |
+
+
+```
+docker inspect <ID> | less
+docker inspect --format="{{.NetworkSettings.IPAddress}}"containername
+docker inspect --format="{{.State.Pid}}"containername
+docker run --rm -v /dev/log:/dev/log/ fedoral:latest logger "message from FEDORA"
+```
 
 **Running a Docker Container**
 
