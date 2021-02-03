@@ -11,15 +11,67 @@ Introduction for Container Orchestration
 Understanding and Using Containers
 
 - A container is a self-contained application. The kernal namespaces. provide stict isolation between system components at different levels
+  
   - network, file, users, processes, IPCs
+  
 - The container runtime is running a host platform and establishes communication between the local host kernel and the container. The container runtime allows for starting and running the container on top of the host OS. The container runtime is responseible for all parts of running the container which are not already a part of the running container program itself.
+  
   - docker, podman, lxc, runc, cri-o
+  
 - Docker is importatnt in the container landscape,
   - Dockerfile, which is a method for building container images.
   - A way to mangage container images, run containers, manage container instances, share container images
+  
 - Images are read-only enviornments that conaitn the runtime environment which includes the application and alll libraries it requires
+
 - Registries are used to storage images. Docker Hub is a common registry, but provide registries can be created also
+
 - Containers are the isolated runtime environments where the application is running. By using the namespaces the containers can be offered as a strictly isolated environment.
+
+  ```
+  ➜  Docker git:(master) docker --version
+  Docker version 20.10.2, build 2291f61
+  
+  ➜  Docker git:(master) launchctl list | grep -i docker
+  -	0	com.docker.helper
+  445	0	com.docker.docker.43364
+  
+  ➜  Docker git:(master) launchctl list com.docker.docker.43364
+  {
+  	"LimitLoadToSessionType" = "Aqua";
+  	"Label" = "com.docker.docker.43364";
+  	"TimeOut" = 30;
+  	"OnDemand" = true;
+  	"LastExitStatus" = 0;
+  	"PID" = 445;
+  	"Program" = "/Applications/Docker.app/Contents/MacOS/Docker";
+  	"ProgramArguments" = (
+  		"/Applications/Docker.app/Contents/MacOS/Docker";
+  	);
+  	"PerJobMachServices" = {
+  		"com.apple.tsm.portname" = mach-port-object;
+  		"com.apple.coredrag" = mach-port-object;
+  		"com.apple.axserver" = mach-port-object;
+  	};
+  };
+  
+  ➜  Docker git:(master) brew install pstree
+  ➜  Docker git:(master) pstree -p 445
+  ➜  Docker git:(master) ✗ echo hello from docker  >> ./var/www/index.html
+  ➜  Docker git:(master) ✗ docker run -d -p 8080:80 --name="myapache" -v /var/www/html:/var/www/html httpd
+  831f786f605bc3640e7e0248d6a00453c38b312adb6ba08f235a29102815d598
+  ➜  Docker git:(master) ✗ docker ps
+  CONTAINER ID   IMAGE     COMMAND              CREATED          STATUS          PORTS                  NAMES
+  831f786f605b   httpd     "httpd-foreground"   39 seconds ago   Up 38 seconds   0.0.0.0:8080->80/tcp   myapache
+  ➜  Docker git:(master) ✗ curl http://localhost:8080
+  <html><body><h1>It works!</h1></body></html>
+  
+  ➜  Docker git:(master) ✗ docker run -it busybox
+  
+  And ctrl-p, ctrl-q to disconnect and keep it running
+
+  ```
+
 
 Understanding Kubernetes
 
