@@ -75,6 +75,18 @@ Understanding and Using Containers
 
 Understanding Kubernetes
 
+- Understanding Kubernetes Core Functions
+  - Kubernettes is. an open-source system for automating. deployment, scaling and managing of containerized applications
+- Understanding Kubernetes Origins
+- Understanding Kubernetes Management interfaces
+  - API/REST -> etcd
+    - The kubernetes API defines objects in a Kubernetes environment
+    - kubectl commands - the kubectl command line utility provides convenient administrator access, allowing us to run many tasks against the cluster
+    - dashboard
+    - Direct API access using commands, such as curl allows develpers to addresst the cluster using API calls from custom scripts (curl, python code))
+- Understanding Kubernetes Architecture
+  - 
+
 Creating a Lab Environment
 
 
