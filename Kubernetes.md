@@ -72,7 +72,6 @@ Understanding and Using Containers
 
   ```
 
-
 Understanding Kubernetes
 
 - Understanding Kubernetes Core Functions
@@ -84,14 +83,25 @@ Understanding Kubernetes
     - kubectl commands - the kubectl command line utility provides convenient administrator access, allowing us to run many tasks against the cluster
     - dashboard
     - Direct API access using commands, such as curl allows develpers to addresst the cluster using API calls from custom scripts (curl, python code))
-- Understanding Kubernetes Architecture
-  - 
 
-Creating a Lab Environment
+EKS is Amazon's implementation of the Kubernetes. Most of the K8S concentps are universal ot any Kubernetes platfrom, unless stated otherwise.
 
-
-
-
-
-
-
+| K8s/EKS | Description                                                  |
+| ------- | ------------------------------------------------------------ |
+| Image   | Docker image                                                 |
+| Pod     | A unit of workload that shares local host, consists of one or more containers |
+|  Container    | A instantialtion of Docker image |
+|  Sidecar    | An additional container in the pod that performas supporting fucntion (proxu/logging etc) |
+|  Service    | An entity you can address that load-balances betwen pods, as opposed to address each pod individually |
+|  Horizontal Pod Autoscaler    | Rules to define how many pods to run |
+|  Resources: CPU/MEM    | Requests and limits or compute resources |
+|  Deployment    | Defines workload, allows rolling updates |
+|  Rollout    | Deployedment + advanced canary deployment |
+|  ReplicaSet    | Controls number of running pods and groups them. Created by DeploymentRollout |
+|  Ingress    | Definition of the inbound "gate" for the traffic into Kubernetes |
+|  ConfigMap    | Key-value entry |
+|  Secrets    | Opaque ConfigMap |
+|  ServiceAccount    | The account that can be granted permissions and attached to a pod. IAM role is possible to be attached in EKS |
+|  PodDisruptionBudget    | Assertion on how many pods should run at minimum durign nodes drain/replacement |
+|  Istio VirtualService    | Istio-sprcific |
+|  ServiceEntry    | Istio-specific. Specifies exteranlservices that are outside the service mesh |
