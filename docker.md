@@ -961,25 +961,6 @@ gs://mo_ml/lingh/preprocessing/pdx_mo.Push.os_level_unsub.PreprocessingV1.OneHot
 
 ```
 
-**What is Docker**
-
-- Docker is a platform that allows you to "build, shipa nd run any app, anywhere".Docker enables you to seperate your applications from your infrastructre so you can deliver software quickly.
-
-- Docker daemon. Docker_Hosts. Docker Engine, Docker Server. Docker daemon listened for Docker API requests and manages Docker objects ushc as images, containers, networks, and volumes. A daemon can also communicate with other daemons to mange Docker servies.
-
-- Docker client is the primary way that many Docker users interact with Docker. When you use commands such as "docker run", the client sends these commands to docker daemon.
-
-- Docker registry stores docker images. Docker Hub is a public registry that anyone can use, and Docker is configured to look for images on Docker Hub by default. A registry is where we store our images. You can host your own registry, or you can use Docker's public registry which is called DockerHub. Inside a registry, images are stored in repositories.
-
-- Docker repository is a collection of different docker images with the same name, that have different tags, each tag usually represents a different version of the image. 
-  - Docker will use latest as a default tag when no tag is provided. 
-  - A lot of repositories use it to tag the most up-to-date table image.  However, this is still only. a convention and is entirely not being enforced.
-  - Images which are tagged latest will not be updated automatically when a newer version of the image is pushed to the repository.
-
-- Docker image is a read-only template with instructions for creating a Docker container. Often, an image is based on another image, with some additional customization. Images is read-only templates used to create containers. Docker Image Layers - All changes made into the running containers will be written into the writable layer. When the container is deleted, the wirtable layer is also deleted, but the underlying image remains unchanged. Multiple containers can share access to the same underlying image.
-
-- Docker container is a runnable instance of an image. By default, a conatiner is relatively well isolated from other containers and its host machine. When a container is removed, any changes to its state that are not stored in persistent storage disappear. Containers is lightweight and portable encapsulations of an environment in which to. run applications. If an image is a class, then a container is an instance of a class - a runtime object.  Container are created from images. Inside a container, if has all teh ibnaries and dependencies to run the application.
-
 **Commands for Creating Docker Files**
 
 | Command        | Description                                                  |
