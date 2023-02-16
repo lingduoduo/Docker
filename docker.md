@@ -1,134 +1,18 @@
-**What is Docker**
+#### 容器生命周期管理命令
 
-- Docker is a platform that allows you to "build, shipa nd run any app, anywhere".Docker enables you to seperate your applications from your infrastructre so you can deliver software quickly.
+**run**
 
-- Docker daemon. Docker_Hosts. Docker Engine, Docker Server. Docker daemon listened for Docker API requests and manages Docker objects ushc as images, containers, networks, and volumes. A daemon can also communicate with other daemons to mange Docker servies.
-
-- Docker client is the primary way that many Docker users interact with Docker. When you use commands such as "docker run", the client sends these commands to docker daemon.
-
-- Docker registry stores docker images. Docker Hub is a public registry that anyone can use, and Docker is configured to look for images on Docker Hub by default. A registry is where we store our images. You can host your own registry, or you can use Docker's public registry which is called DockerHub. Inside a registry, images are stored in repositories.
-
-- Docker repository is a collection of different docker images with the same name, that have different tags, each tag usually represents a different version of the image. 
-  - Docker will use latest as a default tag when no tag is provided. 
-  - A lot of repositories use it to tag the most up-to-date table image.  However, this is still only. a convention and is entirely not being enforced.
-  - Images which are tagged latest will not be updated automatically when a newer version of the image is pushed to the repository.
-
-- Docker image is a read-only template with instructions for creating a Docker container. Often, an image is based on another image, with some additional customization. Images is read-only templates used to create containers. Docker Image Layers - All changes made into the running containers will be written into the writable layer. When the container is deleted, the wirtable layer is also deleted, but the underlying image remains unchanged. Multiple containers can share access to the same underlying image.
-
-- Docker container is a runnable instance of an image. By default, a conatiner is relatively well isolated from other containers and its host machine. When a container is removed, any changes to its state that are not stored in persistent storage disappear. Containers is lightweight and portable encapsulations of an environment in which to. run applications. If an image is a class, then a container is an instance of a class - a runtime object.  Container are created from images. Inside a container, if has all teh ibnaries and dependencies to run the application.
-
-**Commands for Creating Docker Files**
-
-| Command        | Description                                                  |
-| :------------- | :----------------------------------------------------------- |
-| **FROM**       | The base Docker image for the Dockerfile.                    |
-| **LABEL**      | Key-value pair for specifying image metadata.                |
-| **RUN**        | It executes commands on top of the current image as new layers. |
-| **COPY**       | Copies files from the local machine to the container file system. |
-| **EXPOSE**     | Exposes runtime ports for the Docker container.              |
-| **CMD**        | Specifies the command to execute when running the container. This command is overridden if another command is specified at runtime. |
-| **ENTRYPOINT** | Specifies the command to execute when running the container. Entrypoint commands are not overridden by a command specified at runtime. |
-| **WORKDIR**    | Set working directory of the container.                      |
-| **VOLUME**     | Mount a volume from the local machine file system to the Docker container. |
-| **ARG**        | Set Environment variable as a key-value pair when building the image. |
-| **ENV**        | Set Environment variable as a key-value pair that will be available in the container after building. |
-
-**Docker Commands for Managing Images**
-
-| Command                        | Description                                           |
-| :----------------------------- | :---------------------------------------------------- |
-| docker images                  | List all images on the machine.                       |
-| docker rmi [IMAGE_NAME]        | Remove the image with name IMAGE_NAME on the machine. |
-| docker rmi $(docker images -q) | Remove all images from the machine.                   |
-
-**Docker Commands for Managing Containers**
-
-| Command                      | Description                                                  |
-| :--------------------------- | :----------------------------------------------------------- |
-| docker ps                    | List all containers. Append –a to also list containers not running. |
-| docker stop [CONTAINER_ID]   | Gracefully stop the container with [CONTAINER_ID] on the machine. |
-| docker kill CONTAINER_ID]    | Forcefully stop the container with [CONTAINER_ID] on the machine. |
-| docker rm [CONTAINER_ID]     | Remove the container with [CONTAINER_ID] from the machine.   |
-| docker rm $(docker ps -a -q) | Remove all containers from the machine.                      |
-| docker start |                     |
-| docker restart |                     |
-
-**Docker Commands**
+创建一个新的容器。
 
 ```
-docker [OPTIONS] COMMAND [arg...]
-       docker daemon [ --help | ... ]
-       docker [ --help | -v | --version ]
-A
-self-sufficient runtime for containers.
+# 使用docker镜像nginx:latest以后台模式启动一个容器,# 并将容器命名为mynginx。  
+docker run --name mynginx -d nginx:latest  # 使用镜像 nginx:latest，以后台模式启动一个容器,
 
-Options:
-  --config=~/.docker              Location of client config files  #客户端配置文件的位置
-  -D, --debug=false               Enable debug mode  #启用Debug调试模式
-  -H, --host=[]                   Daemon socket(s) to connect to  #守护进程的套接字（Socket）连接
-  -h, --help=false                Print usage  #打印使用
-  -l, --log-level=info            Set the logging level  #设置日志级别
-  --tls=false                     Use TLS; implied by--tlsverify  #
-  --tlscacert=~/.docker/ca.pem    Trust certs signed only by this CA  #信任证书签名CA
-  --tlscert=~/.docker/cert.pem    Path to TLS certificate file  #TLS证书文件路径
-  --tlskey=~/.docker/key.pem      Path to TLS key file  #TLS密钥文件路径
-  --tlsverify=false               Use TLS and verify the remote  #使用TLS验证远程
-  -v, --version=false             Print version information and quit  #打印版本信息并退出
+# 将容器的 80 端口映射到主机的 80 端口,# 主机的目录 /data 映射到容器的 /data。  
+docker run -p 80:80 -v /data:/data -d nginx:latest  # 使用镜像nginx:latest以交互模式启动一个容器,
 
-Commands:
-    attach    Attach to a running container  #当前shell下attach连接指定运行镜像
-    build     Build an image from a Dockerfile  #通过Dockerfile定制镜像
-    commit    Create a new image from a container's changes  #提交当前容器为新的镜像
-    cp    Copy files/folders from a container to a HOSTDIR or to STDOUT  #从容器中拷贝指定文件或者目录到宿主机中
-    create    Create a new container  #创建一个新的容器，同run 但不启动容器
-    diff    Inspect changes on a container's filesystem  #查看docker容器变化
-    events    Get real time events from the server#从docker服务获取容器实时事件
-    exec    Run a command in a running container#在已存在的容器上运行命令
-    export    Export a container's filesystem as a tar archive  #导出容器的内容流作为一个tar归档文件(对应import)
-    history    Show the history of an image  #展示一个镜像形成历史
-    images    List images  #列出系统当前镜像
-    import    Import the contents from a tarball to create a filesystem image  #从tar包中的内容创建一个新的文件系统映像(对应export)
-    info    Display system-wide information  #显示系统相关信息
-    inspect    Return low-level information on a container or image  #查看容器详细信息
-    kill    Kill a running container  #kill指定docker容器
-    load    Load an image from a tar archive or STDIN  #从一个tar包中加载一个镜像(对应save)
-    login    Register or log in to a Docker registry#注册或者登陆一个docker源服务器
-    logout    Log out from a Docker registry  #从当前Docker registry退出
-    logs    Fetch the logs of a container  #输出当前容器日志信息
-    pause    Pause all processes within a container#暂停容器
-    port    List port mappings or a specific mapping for the CONTAINER  #查看映射端口对应的容器内部源端口
-    ps    List containers  #列出容器列表
-    pull    Pull an image or a repository from a registry  #从docker镜像源服务器拉取指定镜像或者库镜像
-    push    Push an image or a repository to a registry  #推送指定镜像或者库镜像至docker源服务器
-    rename    Rename a container  #重命名容器
-    restart    Restart a running container  #重启运行的容器
-    rm    Remove one or more containers  #移除一个或者多个容器
-    rmi    Remove one or more images  #移除一个或多个镜像(无容器使用该镜像才可以删除，否则需要删除相关容器才可以继续或者-f强制删除)
-    run    Run a command in a new container  #创建一个新的容器并运行一个命令
-    save    Save an image(s) to a tar archive#保存一个镜像为一个tar包(对应load)
-    search    Search the Docker Hub for images  #在docker # hub中搜索镜像
-    start    Start one or more stopped containers#启动容器
-    stats    Display a live stream of container(s) resource usage statistics  #统计容器使用资源
-    stop    Stop a running container  #停止容器
-    tag         Tag an image into a repository  #给源中镜像打标签
-    top       Display the running processes of a container #查看容器中运行的进程信息
-    unpause    Unpause all processes within a container  #取消暂停容器
-    version    Show the Docker version information#查看容器版本号
-    wait         Block until a container stops, then print its exit code  #截取容器停止时的退出状态值
-  
-Run 'docker COMMAND --help' for more information on a command.  
-运行docker命令在帮助可以获取更多信息
-```
-
-**Inspecting a Docker Container**
-```
-docker inspect <ID> | less
-docker inspect --format="{{.NetworkSettings.IPAddress}}"containername
-docker inspect --format="{{.State.Pid}}"containername
-docker run --rm -v /dev/log:/dev/log/ fedoral:latest logger "message from FEDORA"
-```
-
-**Running a Docker Container**
+# 在容器内执行/bin/bash命令。  
+docker run -it nginx:latest /bin/bash  
 
 docker run -d -it --rm --name [CONTAINER_NAME] -p 8081:80 [IMAGE_NAME]
 
@@ -140,19 +24,241 @@ where
 - --name specifies a name for the container.
 - -p does port forwarding from host to the container (i.e., host:container) .
 
-Clients - docker build,  docker pull, docker run
+后台运行一个docker
+docker run -d centos /bin/sh -c "while true;do echo 正在运行; sleep 1;done"
+    # -d  后台运行容器
+    # /bin/sh  指定使用centos的bash解释器
+    # -c 运行一段shell命令
+    # "while true;do echo 正在运行; sleep 1;done"  在linux后台，每秒中打印一次正在运行
+    
+启动一个bash终端,允许用户进行交互
+docker run --name mydocker -it centos /bin/bash  
+    # --name  给容器定义一个名称
+    # -i  让容器的标准输入保持打开
+    # -t 让Docker分配一个伪终端,并绑定到容器的标准输入上
+    # /bin/bash 指定docker容器，用shell解释器交互
 
-```
 docker run busybox:latest echo "Hello World"
 docker run busybox:latest ls /
 docker run -d busybox:latest
 docker run -d busybox:latest sleep 1000
 docker run --name hello busybox:latest
-
 docker run -it -p 8888:8080 tomcat:latest
+
+Docker run, the -i flag starts an interactive container. The -t flag creates a pseudo-TTY that attaches stdin and stdout. 
+
+- Docker build command takes the path to the build context as an. argument. When build start, docker client would pack all the files in the build context into a. tarball tehn transfer the tarball file to the daemon. By default, docker would search for the Docker file in the buid context path.
+  - Commit changes made in a Docker container. For example, Spin up a container from a base image. Install Git package in the container. Commit changes made in the container. Docker commit command would save the changes we made to the Docker container's file system to a new Image.
+  - Each RUN command will execute the command on the top writable layer of the container, then commit the container as a new image. The new image is used for the next step in the Docekrfile. So each RUN instruction will create a new image layer. It is recommended to chain the RUN instructions in the Dockerfile to reduce the number of image layers it creates. Sort Multi-line Arguments Alphanumerically.
+  - CMD Instruction specifies what command. you want to run when the container starts up. Docker will use the default command defined in the base image.
+  - Docker Cache. Each time Docker executes an. instruction it builds a new image layer. The next time, if the instruction doesn't change, Docker will simply reuse the existing layer. Sometime it has issues, e.g, aggressive caching. Specify with --no-cache option
+  - Copy Instruction copies new files or directories from build context and adds them to the file system of the container.   Use copy for the sake of transparency, unless you are absolutely sure you need ADD commands.
+  - Add Instruction can not only copy files, but also allow you to download a file from. internet and copy to the container. It also has the ability to automatically unpack compressed files.
+
+
+docker images
+docker tag 345867df0879  lingh/test
+docker login --username=lingh
+docker push lingh/test:0.01
+```
+
+- docker run container
+```
+1. 检查本地是否存在指定的镜像，不存在就从公有仓库下载
+2. 利用镜像创建并启动一个容器
+3. 分配一个文件系统，并在只读的镜像层外面挂在一层可读写层
+4. 从宿主主机配置的网桥接口中桥接一个虚拟接口到容器中去
+5. 从地址池配置一个ip地址给容器
+6. 执行用户指定的应用程序
+7. 执行完毕后容器被终止%%
+```
+
+```
+docker stopped
+[root@localhost ~]# docker ps -a  # 先查询记录
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                        PORTS                    NAMES
+ee92fcf6f32d        centos              "/bin/bash"              4 days ago          Exited (137) 3 days ago                                kickass_raman
+
+[root@localhost ~]# docker start ee9  # 再启动这个容器
+ee9
+
+[root@localhost ~]# docker exec -it  ee9 /bin/bash  # 进入容器交互式界面
+[root@ee92fcf6f32d /]#   # 注意看用户名，已经变成容器用户名
+```
+- docker run image
+```
+1.我们进入交互式的centos容器中，发现没有vim命令
+    docker run -it centos
+2.在当前容器中，安装一个vim
+    yum install -y vim
+3.安装好vim之后，exit退出容器
+    exit
+4.查看刚才安装好vim的容器记录
+    docker container ls -a
+5.提交这个容器，创建新的image
+    docker commit 059fdea031ba chaoyu/centos-vim
+6.查看镜像文件
+    docker images%%
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+ling/centos-vim   latest              fd2685ae25fe        5 minutes ago       348MB
+```
+
+- docker run with -p
+```
+docker run -d -P training/webapp python app.py
+ -P 参数会随机映射端口到容器开放的网络端口
+
+检查映射的端口
+docker ps -l
+CONTAINER ID        IMAGE               COMMAND             CREATED            STATUS              PORTS                     NAMES
+cfd632821d7a        training/webapp     "python app.py"     21 seconds ago      Up 20 seconds       0.0.0.0:32768->5000/tcp   brave_fermi
+#宿主机ip:32768 映射容器的5000端口
+
+查看容器日志信息
+docker logs -f cfd  # #不间断显示log
+
+# 也可以通过-p参数指定映射端口
+docker run -d -p 9000:5000 training/webapp python app.py
+```
+
+
+**start/stop/restart**
+
+- **docker start** : 启动一个或多个已经被停止的容器。
+- **docker stop** : 停止一个运行中的容器。
+- **docker restart** : 重启容器。
+
+```
+# 启动已被停止的容器mynginx  
+docker start mynginx  # 停止运行中的容器mynginx  
+docker stop mynginx  # 重启容器mynginx  
+docker restart mynginx  
+```
+
+**kill**
+
+杀掉一个运行中的容器。可选参数：
+
+- **-s :** 发送什么信号到容器，默认 KILL
+
+```
+# 根据容器名字杀掉容器  
+docker kill tomcat7  
+# 根据容器ID杀掉容器  
+docker kill 65d4a94f7a39  
+```
+
+**rm**
+
+删除一个或多个容器。
+
+```
+# 强制删除容器 db01、db02：  
+docker rm -f db01 db02  
+
+# 删除容器 nginx01, 并删除容器挂载的数据卷：  
+docker rm -v nginx01  
+
+# 删除所有已经停止的容器：  
+docker rm $(docker ps -a -q)  
+```
+
+**create**
+
+创建一个新的容器但不启动它。
+
+```
+# 使用docker镜像nginx:latest创建一个容器,并将容器命名为mynginx  
+docker create --name mynginx nginx:latest     
+```
+
+**exec**
+
+在运行的容器中执行命令。可选参数：
+
+- **-d :** 分离模式: 在后台运行
+- **-i :** 即使没有附加也保持STDIN 打开
+- **-t :** 分配一个伪终端
+
+```
+# 在容器 mynginx 中以交互模式执行容器内 /root/nginx.sh 脚本  
+docker exec -it mynginx /bin/sh /root/nginx.sh  
+
+# 在容器 mynginx 中开启一个交互模式的终端  
+docker exec -i -t  mynginx /bin/bash  
+
+# 也可以通过 docker ps -a 命令查看已经在运行的容器，然后使用容器 ID 进入容器。  
+docker ps -a   docker exec -it 9df70f9a0714 /bin/bash  
+```
+
+**pause/unpause**
+
+- **docker pause** :暂停容器中所有的进程。
+- **docker unpause** :恢复容器中所有的进程。
+
+```
+# 暂停数据库容器db01提供服务。  
+docker pause db01  
+
+# 恢复数据库容器 db01 提供服务  
+docker unpause db0  
+```
+
+#### **容器操作命令**
+
+**Inspect**
+
+获取容器/镜像的元数据。可选参数：
+
+-f : 指定返回值的模板文件。
+-s : 显示总的文件大小。
+–type : 为指定类型返回JSON。
+
+```
+docker inspect <ID> | less
+docker inspect --format="{{.NetworkSettings.IPAddress}}"containername
+docker inspect --format="{{.State.Pid}}"containername
+docker run --rm -v /dev/log:/dev/log/ fedoral:latest logger "message from FEDORA"
+
+获取镜像mysql:5.7的元信息。 
+docker inspect mysql:5.7  # 获取正在运行的容器mymysql的 IP。  
+docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mymysql  
+
+```
+
+**ps**
+
+列出容器。可选参数：
+
+-a : 显示所有的容器，包括未运行的。
+-f : 根据条件过滤显示的内容。
+–format : 指定返回值的模板文件。
+-l : 显示最近创建的容器。
+-n : 列出最近创建的n个容器。
+–no-trunc : 不截断输出。
+-q : 静默模式，只显示容器编号。
+-s : 显示总的文件大小。
+
+```
+# 列出所有在运行的容器信息。  
+docker ps  # 列出最近创建的5个容器信息。  
+docker ps -n 5  # 列出所有创建的容器ID。  
+docker ps -a -q  
+
+补充说明：
+
+容器的7种状态：
+created（已创建）
+restarting（重启中）
+running（运行中）
+removing（迁移中）
+paused（暂停）
+exited（停止）
+dead（死亡）
 
 docker ps
 docker ps -a
+
 docker run --rm busybox:latest sleep 1
 docker inspect ac5763c57b26226a63ea12d0048bf699c1a3ed33637651d9e0615a986c13c85f
 docker logs b26f87073ea60472b50040c629ccd532a18577f15496d9bfce319ddb2b964a26
@@ -165,23 +271,306 @@ docker build -t lingh/docker .
 docker commit b26f87073 git/ling:1.0
 ```
 
-- Docker run, the -i flag starts an interactive container. The -t flag creates a pseudo-TTY that attaches stdin and stdout. 
-- Docker build command takes the path to the build context as an. argument. When build start, docker client would pack all the files in the build context into a. tarball tehn transfer the tarball file to the daemon. By default, docker would search for the Docker file in the buid context path.
-  - Commit changes made in a Docker container. For example, Spin up a container from a base image. Install Git package in the container. Commit changes made in the container. Docker commit command would save the changes we made to the Docker container's file system to a new Image.
-  - Each RUN command will execute the command on the top writable layer of the container, then commit the container as a new image. The new image is used for the next step in the Docekrfile. So each RUN instruction will create a new image layer. It is recommended to chain the RUN instructions in the Dockerfile to reduce the number of image layers it creates. Sort Multi-line Arguments Alphanumerically.
-  - CMD Instruction specifies what command. you want to run when the container starts up. Docker will use the default command defined in the base image.
-  - Docker Cache. Each time Docker executes an. instruction it builds a new image layer. The next time, if the instruction doesn't change, Docker will simply reuse the existing layer. Sometime it has issues, e.g, aggressive caching. Specify with --no-cache option
-  - Copy Instruction copies new files or directories from build context and adds them to the file system of the container.   Use copy for the sake of transparency, unless you are absolutely sure you need ADD commands.
-  - Add Instruction can not only copy files, but also allow you to download a file from. internet and copy to the container. It also has the ability to automatically unpack compressed files.
+**top**
 
+查看容器中运行的进程信息，支持 ps 命令参数。
 
-  ```
-  docker images
-  
-  docker tag 345867df0879  lingh/test
-  docker login --username=lingh
-  docker push lingh/test:0.01
-  ```
+```
+# 查看容器mymysql的进程信息。  
+docker top mymysql  # 查看所有运行容器的进程信息。  
+for i in  `docker ps |grep Up|awk '{print $1}'`;
+	do echo \ &&docker top $i; 
+	done  
+```
+
+**events**
+
+获取实时事件。参数说明：
+
+- **-f ：** 根据条件过滤事件；
+- **–since ：** 从指定的时间戳后显示所有事件；
+- **–until ：** 流水时间显示到指定的时间为止；
+
+```
+# 显示docker 2016年7月1日后的所有事件。  
+docker events  --since="1467302400"  
+
+# 显示docker 镜像为mysql:5.6 2016年7月1日后的相关事件。  
+docker events -f "image"="mysql:5.6" --since="1467302400" 
+
+说明：如果指定的时间是到秒级的，需要将时间转成时间戳。如果时间为日期的话，可以直接使用，如–since=“2016-07-01”。
+```
+
+**logs**
+
+获取容器的日志。参数说明：
+
+- **-f :** 跟踪日志输出
+- **–since :** 显示某个开始时间的所有日志
+- **-t :** 显示时间戳
+- **–tail :** 仅列出最新N条容器日志
+
+```
+# 跟踪查看容器mynginx的日志输出。  
+docker logs -f mynginx  
+
+# 查看容器mynginx从2016年7月1日后的最新10条日志。  
+docker logs --since="2016-07-01" --tail=10 mynginx  
+```
+
+**export**
+
+将文件系统作为一个tar归档文件导出到STDOUT。参数说明：
+
+- **-o :** 将输入内容写到文件。
+
+```
+# 将id为a404c6c174a2的容器按日期保存为tar文件。  docker export -o mysql-`date +%Y%m%d`.tar a404c6c174a2  ls mysql-`date +%Y%m%d`.tar  
+```
+
+**port**
+
+列出指定的容器的端口映射。
+
+```
+# 查看容器mynginx的端口映射情况。  
+docker port mymysql  
+```
+
+#### 容器rootfs命令
+
+**commit**
+
+从容器创建一个新的镜像。参数说明：
+
+- **-a :** 提交的镜像作者；
+- **-c :** 使用Dockerfile指令来创建镜像；
+- **-m :** 提交时的说明文字；
+- **-p :** 在commit时，将容器暂停。
+
+```
+# 将容器a404c6c174a2 保存为新的镜像,# 并添加提交人信息和说明信息。 
+docker commit -a "guodong" -m "my db" a404c6c174a2  mymysql:v1   
+```
+
+**cp**
+
+用于容器与主机之间的数据拷贝。参数说明：
+
+- **-L :** 保持源目标中的链接
+
+```
+# 将主机/www/runoob目录拷贝到容器96f7f14e99ab的/www目录下。  
+docker cp /www/runoob 96f7f14e99ab:/www/  
+
+# 将主机/www/runoob目录拷贝到容器96f7f14e99ab中，目录重命名为www。  
+docker cp /www/runoob 96f7f14e99ab:/www  
+
+# 将容器96f7f14e99ab的/www目录拷贝到主机的/tmp目录中。  
+docker cp  96f7f14e99ab:/www /tmp/  
+```
+
+**diff**
+
+检查容器里文件结构的更改。
+
+```
+# 查看容器mymysql的文件结构更改。  
+docker diff mymysql  
+```
+
+#### 镜像仓库命令 
+
+**login/logout**
+
+**docker login :** 登陆到一个Docker镜像仓库，如果未指定镜像仓库地址，默认为官方仓库 Docker Hub**docker logout :**登出一个Docker镜像仓库，如果未指定镜像仓库地址，默认为官方仓库 Docker Hub参数说明：
+
+- **-u :** 登陆的用户名
+- **-p :** 登陆的密码
+
+```
+# 登陆到 Docker Hub  
+docker login -u 用户名 -p 密码  
+# 登出 Docker Hub  
+docker logout  
+```
+
+**pull**
+
+从镜像仓库中拉取或者更新指定镜像。参数说明：
+
+- **-a :** 拉取所有 tagged 镜像
+- **–disable-content-trust :** 忽略镜像的校验,默认开启
+
+```
+# 从Docker Hub下载java最新版镜像。  
+docker pull java  
+
+# 从Docker Hub下载REPOSITORY为java的所有镜像。  
+docker pull -a java  
+```
+
+**push**
+
+将本地的镜像上传到镜像仓库,要先登陆到镜像仓库。参数说明：
+
+- **–disable-content-trust :** 忽略镜像的校验,默认开启
+
+```
+# 上传本地镜像myapache:v1到镜像仓库中。  
+docker push myapache:v1  
+```
+
+**search**
+
+从Docker Hub查找镜像。参数说明：
+
+- **–automated :** 只列出 automated build类型的镜像；
+- **–no-trunc :** 显示完整的镜像描述；
+- **-f \<过滤条件>:** 列出指定条件的镜像。
+
+```
+# 从 Docker Hub 查找所有镜像名包含 java，并且收藏数大于 10 的镜像  
+docker search -f stars=10 java  NAME                  DESCRIPTION                           STARS   OFFICIAL   AUTOMATED  java                  Java is a concurrent, class-based...   1037    [OK]         anapsix/alpine-java   Oracle Java 8 (and 7) with GLIBC ...   115                [OK]  develar/java                                                 46                 [OK]  
+```
+
+每列参数说明：
+
+- **NAME:** 镜像仓库源的名称
+- **DESCRIPTION:** 镜像的描述
+- **OFFICIAL:** 是否 docker 官方发布
+- **stars:** 类似 Github 里面的 star，表示点赞、喜欢的意思
+- 另外搜索公众号GitHub猿后台回复“赚钱”，获取一份惊喜礼包。
+- **AUTOMATED:** 自动构建
+
+#### 本地镜像管理命令 
+
+**images**
+
+列出本地镜像。参数说明：
+
+- **-a :** 列出本地所有的镜像（含中间映像层，默认情况下，过滤掉中间映像层）；
+- **–digests :** 显示镜像的摘要信息；
+- **-f :** 显示满足条件的镜像；
+- **–format :** 指定返回值的模板文件；
+- **–no-trunc :** 显示完整的镜像信息；
+- **-q :** 只显示镜像ID。
+
+```
+# 查看本地镜像列表。  
+docker images  
+
+# 列出本地镜像中REPOSITORY为ubuntu的镜像列表。  
+docker images  ubuntu  
+```
+
+**rmi**
+
+删除本地一个或多个镜像。参数说明：
+
+- **-f :** 强制删除；
+- **–no-prune :** 不移除该镜像的过程镜像，默认移除；
+- 另外，搜索公众号Linux就该这样学后台回复“Linux”，获取一份惊喜礼包。
+
+```
+# 强制删除本地镜像 guodong/ubuntu:v4。  
+docker rmi -f guodong/ubuntu:v4  
+```
+
+**tag**
+
+标记本地镜像，将其归入某一仓库。
+
+```
+# 将镜像ubuntu:15.10标记为 runoob/ubuntu:v3 镜像。  
+docker tag ubuntu:15.10 runoob/ubuntu:v3  
+```
+
+**build**
+
+用于使用 Dockerfile 创建镜像。参数说明：
+
+- **–build-arg=[] :** 设置镜像创建时的变量；
+- **–cpu-shares :** 设置 cpu 使用权重；
+- **–cpu-period :** 限制 CPU CFS周期；
+- **–cpu-quota :** 限制 CPU CFS配额；
+- **–cpuset-cpus :** 指定使用的CPU id；
+- **–cpuset-mems :** 指定使用的内存 id；
+- **–disable-content-trust :** 忽略校验，默认开启；
+- **-f :** 指定要使用的Dockerfile路径；
+- **–force-rm :** 设置镜像过程中删除中间容器；
+- **–isolation :** 使用容器隔离技术；
+- **–label=[] :** 设置镜像使用的元数据；
+- **-m :** 设置内存最大值；
+- **–memory-swap :** 设置Swap的最大值为内存+swap，"-1"表示不限swap；
+- **–no-cache :** 创建镜像的过程不使用缓存；
+- **–pull :** 尝试去更新镜像的新版本；
+- **–quiet, -q :** 安静模式，成功后只输出镜像 ID；
+- **–rm :** 设置镜像成功后删除中间容器；
+- **–shm-size :** 设置/dev/shm的大小，默认值是64M；
+- **–ulimit :** Ulimit配置。
+- **–squash :** 将 Dockerfile 中所有的操作压缩为一层。
+- **–tag, -t:** 镜像的名字及标签，通常 name:tag 或者 name 格式；可以在一次构建中为一个镜像设置多个标签。
+- **–network:** 默认 default。在构建期间设置RUN指令的网络模式
+
+```
+# 使用当前目录的 Dockerfile 创建镜像，标签为 runoob/ubuntu:v1  
+docker build -t runoob/ubuntu:v1 .   
+
+# 使用URL github.com/creack/docker-firefox 的 Dockerfile 创建镜像  
+docker build github.com/creack/docker-firefox  
+
+# 通过 -f Dockerfile文件的位置 创建镜像  
+docker build -f /path/to/a/Dockerfile .  
+```
+
+**history**
+
+查看指定镜像的创建历史。参数说明：
+
+- **-H :** 以可读的格式打印镜像大小和日期，默认为true；
+- **–no-trunc :** 显示完整的提交记录；
+- **-q :** 仅列出提交记录ID。
+
+```
+# 查看本地镜像 guodong/ubuntu:v3 的创建历史。  
+docker history guodong/ubuntu:v3  
+```
+
+**save**
+
+将指定镜像保存成 tar 归档文件。参数说明：
+
+- **-o :** 输出到的文件。
+
+```
+# 将镜像 runoob/ubuntu:v3 生成 my_ubuntu_v3.tar 文档  
+docker save -o my_ubuntu_v3.tar runoob/ubuntu:v3  
+```
+
+**load**
+
+导入使用 `docker save` 命令导出的镜像。参数说明：
+
+- **–input , -i :** 指定导入的文件，代替 STDIN。
+- **–quiet , -q :** 精简输出信息。
+
+```
+# 导入镜像  
+docker load --input fedora.tar  
+```
+
+**import**
+
+从归档文件中创建镜像。参数说明：
+
+- **-c :** 应用docker 指令创建镜像；
+- **-m :** 提交时的说明文字；
+
+```
+# 从镜像归档文件my_ubuntu_v3.tar创建镜像，命名为runoob/ubuntu:v4  
+docker import  my_ubuntu_v3.tar runoob/ubuntu:v4    
+```
 
 Docker Container Links
 
@@ -214,7 +603,7 @@ Docker Compose
   - docker compose build rebuids all the images.
 
 
-### Docker command examples
+#### Docker command examples
 
 ```
 docker version
@@ -271,82 +660,6 @@ docker info
 - docker help
 ```
 docker --help
-```
-- docker run
-```
-后台运行一个docker
-docker run -d centos /bin/sh -c "while true;do echo 正在运行; sleep 1;done"
-    # -d  后台运行容器
-    # /bin/sh  指定使用centos的bash解释器
-    # -c 运行一段shell命令
-    # "while true;do echo 正在运行; sleep 1;done"  在linux后台，每秒中打印一次正在运行
-docker ps  # 检查容器进程
-docker  logs  -f  容器id/名称  # 不间断打印容器的日志信息 
-docker stop centos  # 停止容器
-```
-
-```
-启动一个bash终端,允许用户进行交互
-docker run --name mydocker -it centos /bin/bash  
-    # --name  给容器定义一个名称
-    # -i  让容器的标准输入保持打开
-    # -t 让Docker分配一个伪终端,并绑定到容器的标准输入上
-    # /bin/bash 指定docker容器，用shell解释器交互
-
-docker run container
-1. 检查本地是否存在指定的镜像，不存在就从公有仓库下载
-2. 利用镜像创建并启动一个容器
-3. 分配一个文件系统，并在只读的镜像层外面挂在一层可读写层
-4. 从宿主主机配置的网桥接口中桥接一个虚拟接口到容器中去
-5. 从地址池配置一个ip地址给容器
-6. 执行用户指定的应用程序
-7. 执行完毕后容器被终止%%
-
-docker stopped
-[root@localhost ~]# docker ps -a  # 先查询记录
-CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                        PORTS                    NAMES
-ee92fcf6f32d        centos              "/bin/bash"              4 days ago          Exited (137) 3 days ago                                kickass_raman
-
-[root@localhost ~]# docker start ee9  # 再启动这个容器
-ee9
-
-[root@localhost ~]# docker exec -it  ee9 /bin/bash  # 进入容器交互式界面
-[root@ee92fcf6f32d /]#   # 注意看用户名，已经变成容器用户名
-```
-- docker run image
-```
-1.我们进入交互式的centos容器中，发现没有vim命令
-    docker run -it centos
-2.在当前容器中，安装一个vim
-    yum install -y vim
-3.安装好vim之后，exit退出容器
-    exit
-4.查看刚才安装好vim的容器记录
-    docker container ls -a
-5.提交这个容器，创建新的image
-    docker commit 059fdea031ba chaoyu/centos-vim
-6.查看镜像文件
-    docker images%%
-REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-ling/centos-vim   latest              fd2685ae25fe        5 minutes ago       348MB
-```
-
-- docker run with -p
-```
-docker run -d -P training/webapp python app.py
- -P 参数会随机映射端口到容器开放的网络端口
-
-检查映射的端口
-docker ps -l
-CONTAINER ID        IMAGE               COMMAND             CREATED            STATUS              PORTS                     NAMES
-cfd632821d7a        training/webapp     "python app.py"     21 seconds ago      Up 20 seconds       0.0.0.0:32768->5000/tcp   brave_fermi
-#宿主机ip:32768 映射容器的5000端口
-
-查看容器日志信息
-docker logs -f cfd  # #不间断显示log
-
-# 也可以通过-p参数指定映射端口
-docker run -d -p 9000:5000 training/webapp python app.py
 ```
 
 - docker image
@@ -647,3 +960,126 @@ gs://mo_ml/lingh/preprocessing/pdx_mo.Push.os_level_unsub.PreprocessingV1.OneHot
 gs://mo_ml/lingh/preprocessing/pdx_mo.Push.os_level_unsub.PreprocessingV1.OneHotFeatures/2019-08-21/20190827T190136.586152-1a00748f68d8/transformed_metadata/schema.pbtxt \
 
 ```
+
+**What is Docker**
+
+- Docker is a platform that allows you to "build, shipa nd run any app, anywhere".Docker enables you to seperate your applications from your infrastructre so you can deliver software quickly.
+
+- Docker daemon. Docker_Hosts. Docker Engine, Docker Server. Docker daemon listened for Docker API requests and manages Docker objects ushc as images, containers, networks, and volumes. A daemon can also communicate with other daemons to mange Docker servies.
+
+- Docker client is the primary way that many Docker users interact with Docker. When you use commands such as "docker run", the client sends these commands to docker daemon.
+
+- Docker registry stores docker images. Docker Hub is a public registry that anyone can use, and Docker is configured to look for images on Docker Hub by default. A registry is where we store our images. You can host your own registry, or you can use Docker's public registry which is called DockerHub. Inside a registry, images are stored in repositories.
+
+- Docker repository is a collection of different docker images with the same name, that have different tags, each tag usually represents a different version of the image. 
+  - Docker will use latest as a default tag when no tag is provided. 
+  - A lot of repositories use it to tag the most up-to-date table image.  However, this is still only. a convention and is entirely not being enforced.
+  - Images which are tagged latest will not be updated automatically when a newer version of the image is pushed to the repository.
+
+- Docker image is a read-only template with instructions for creating a Docker container. Often, an image is based on another image, with some additional customization. Images is read-only templates used to create containers. Docker Image Layers - All changes made into the running containers will be written into the writable layer. When the container is deleted, the wirtable layer is also deleted, but the underlying image remains unchanged. Multiple containers can share access to the same underlying image.
+
+- Docker container is a runnable instance of an image. By default, a conatiner is relatively well isolated from other containers and its host machine. When a container is removed, any changes to its state that are not stored in persistent storage disappear. Containers is lightweight and portable encapsulations of an environment in which to. run applications. If an image is a class, then a container is an instance of a class - a runtime object.  Container are created from images. Inside a container, if has all teh ibnaries and dependencies to run the application.
+
+**Commands for Creating Docker Files**
+
+| Command        | Description                                                  |
+| :------------- | :----------------------------------------------------------- |
+| **FROM**       | The base Docker image for the Dockerfile.                    |
+| **LABEL**      | Key-value pair for specifying image metadata.                |
+| **RUN**        | It executes commands on top of the current image as new layers. |
+| **COPY**       | Copies files from the local machine to the container file system. |
+| **EXPOSE**     | Exposes runtime ports for the Docker container.              |
+| **CMD**        | Specifies the command to execute when running the container. This command is overridden if another command is specified at runtime. |
+| **ENTRYPOINT** | Specifies the command to execute when running the container. Entrypoint commands are not overridden by a command specified at runtime. |
+| **WORKDIR**    | Set working directory of the container.                      |
+| **VOLUME**     | Mount a volume from the local machine file system to the Docker container. |
+| **ARG**        | Set Environment variable as a key-value pair when building the image. |
+| **ENV**        | Set Environment variable as a key-value pair that will be available in the container after building. |
+
+**Docker Commands for Managing Images**
+
+| Command                        | Description                                           |
+| :----------------------------- | :---------------------------------------------------- |
+| docker images                  | List all images on the machine.                       |
+| docker rmi [IMAGE_NAME]        | Remove the image with name IMAGE_NAME on the machine. |
+| docker rmi $(docker images -q) | Remove all images from the machine.                   |
+
+**Docker Commands for Managing Containers**
+
+| Command                      | Description                                                  |
+| :--------------------------- | :----------------------------------------------------------- |
+| docker ps                    | List all containers. Append –a to also list containers not running. |
+| docker stop [CONTAINER_ID]   | Gracefully stop the container with [CONTAINER_ID] on the machine. |
+| docker kill CONTAINER_ID]    | Forcefully stop the container with [CONTAINER_ID] on the machine. |
+| docker rm [CONTAINER_ID]     | Remove the container with [CONTAINER_ID] from the machine.   |
+| docker rm $(docker ps -a -q) | Remove all containers from the machine.                      |
+| docker start                 |                                                              |
+| docker restart               |                                                              |
+
+**Docker Commands**
+
+```
+docker [OPTIONS] COMMAND [arg...]
+       docker daemon [ --help | ... ]
+       docker [ --help | -v | --version ]
+A
+self-sufficient runtime for containers.
+
+Options:
+  --config=~/.docker              Location of client config files  #客户端配置文件的位置
+  -D, --debug=false               Enable debug mode  #启用Debug调试模式
+  -H, --host=[]                   Daemon socket(s) to connect to  #守护进程的套接字（Socket）连接
+  -h, --help=false                Print usage  #打印使用
+  -l, --log-level=info            Set the logging level  #设置日志级别
+  --tls=false                     Use TLS; implied by--tlsverify  #
+  --tlscacert=~/.docker/ca.pem    Trust certs signed only by this CA  #信任证书签名CA
+  --tlscert=~/.docker/cert.pem    Path to TLS certificate file  #TLS证书文件路径
+  --tlskey=~/.docker/key.pem      Path to TLS key file  #TLS密钥文件路径
+  --tlsverify=false               Use TLS and verify the remote  #使用TLS验证远程
+  -v, --version=false             Print version information and quit  #打印版本信息并退出
+
+Commands:
+    attach    Attach to a running container  #当前shell下attach连接指定运行镜像
+    build     Build an image from a Dockerfile  #通过Dockerfile定制镜像
+    commit    Create a new image from a container's changes  #提交当前容器为新的镜像
+    cp    Copy files/folders from a container to a HOSTDIR or to STDOUT  #从容器中拷贝指定文件或者目录到宿主机中
+    create    Create a new container  #创建一个新的容器，同run 但不启动容器
+    diff    Inspect changes on a container's filesystem  #查看docker容器变化
+    events    Get real time events from the server#从docker服务获取容器实时事件
+    exec    Run a command in a running container#在已存在的容器上运行命令
+    export    Export a container's filesystem as a tar archive  #导出容器的内容流作为一个tar归档文件(对应import)
+    history    Show the history of an image  #展示一个镜像形成历史
+    images    List images  #列出系统当前镜像
+    import    Import the contents from a tarball to create a filesystem image  #从tar包中的内容创建一个新的文件系统映像(对应export)
+    info    Display system-wide information  #显示系统相关信息
+    inspect    Return low-level information on a container or image  #查看容器详细信息
+    kill    Kill a running container  #kill指定docker容器
+    load    Load an image from a tar archive or STDIN  #从一个tar包中加载一个镜像(对应save)
+    login    Register or log in to a Docker registry#注册或者登陆一个docker源服务器
+    logout    Log out from a Docker registry  #从当前Docker registry退出
+    logs    Fetch the logs of a container  #输出当前容器日志信息
+    pause    Pause all processes within a container#暂停容器
+    port    List port mappings or a specific mapping for the CONTAINER  #查看映射端口对应的容器内部源端口
+    ps    List containers  #列出容器列表
+    pull    Pull an image or a repository from a registry  #从docker镜像源服务器拉取指定镜像或者库镜像
+    push    Push an image or a repository to a registry  #推送指定镜像或者库镜像至docker源服务器
+    rename    Rename a container  #重命名容器
+    restart    Restart a running container  #重启运行的容器
+    rm    Remove one or more containers  #移除一个或者多个容器
+    rmi    Remove one or more images  #移除一个或多个镜像(无容器使用该镜像才可以删除，否则需要删除相关容器才可以继续或者-f强制删除)
+    run    Run a command in a new container  #创建一个新的容器并运行一个命令
+    save    Save an image(s) to a tar archive#保存一个镜像为一个tar包(对应load)
+    search    Search the Docker Hub for images  #在docker # hub中搜索镜像
+    start    Start one or more stopped containers#启动容器
+    stats    Display a live stream of container(s) resource usage statistics  #统计容器使用资源
+    stop    Stop a running container  #停止容器
+    tag         Tag an image into a repository  #给源中镜像打标签
+    top       Display the running processes of a container #查看容器中运行的进程信息
+    unpause    Unpause all processes within a container  #取消暂停容器
+    version    Show the Docker version information#查看容器版本号
+    wait         Block until a container stops, then print its exit code  #截取容器停止时的退出状态值
+  
+Run 'docker COMMAND --help' for more information on a command.  
+运行docker命令在帮助可以获取更多信息
+```
+
