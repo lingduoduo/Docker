@@ -7,7 +7,7 @@ setup(
     packages=find_packages(exclude=['test', '*.test', '*.test.*']),
     include_package_data=True,
     install_requires=[
-        'numpy==1.16.4',
+        'numpy==1.22',
         'scipy==1.3.0',
         'effortless_config>=0.6.1',
         'google-cloud-storage==1.16.1',

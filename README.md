@@ -117,6 +117,10 @@ docker run
 
 docker exec
 
+```
+Docker run ubuntu echo hello world
+```
+
 ##### Docker API
 
 Docker also provides an API for interacting with the Docker Engine. This is particularly useful if there’s a need to create or manage containers from within applications. Almost every operation supported by the Docker CLI can be done via the API.
