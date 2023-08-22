@@ -7,8 +7,7 @@ setup(
     packages=find_packages(exclude=['test', '*.test', '*.test.*']),
     include_package_data=True,
     install_requires=[
-        'numpy==1.22',
-        'scipy==1.3.0',
+        'numpy==1.24.3',
         'effortless_config>=0.6.1',
         'google-cloud-storage==1.16.1',
         'cloudml-hypertune',
@@ -16,7 +15,7 @@ setup(
     ],
     extras_require={
         'cpu': [
-            'tensorflow==2.0.0b1',
+            'tensorflow==2.8.1',
         ],
         'gpu': [
             'tensorflow-gpu==2.0.0b1',
