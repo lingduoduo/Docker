@@ -1,5 +1,39 @@
 ### Kubernetes 
 
+Understanding Kubernetes
+
+- Understanding Kubernetes Core Functions
+  - Kubernettes is. an open-source system for automating. deployment, scaling and managing of containerized applications
+- Understanding Kubernetes Origins
+- Understanding Kubernetes Management interfaces
+  - API/REST -> etcd
+    - The kubernetes API defines objects in a Kubernetes environment
+    - kubectl commands - the kubectl command line utility provides convenient administrator access, allowing us to run many tasks against the cluster
+    - dashboard
+    - Direct API access using commands, such as curl allows develpers to addresst the cluster using API calls from custom scripts (curl, python code))
+
+EKS is Amazon's implementation of the Kubernetes. Most of the K8S concentps are universal ot any Kubernetes platfrom, unless stated otherwise.
+
+| K8s/EKS | Description                                                  |
+| ------- | ------------------------------------------------------------ |
+| Image   | Docker image                                                 |
+| Pod     | A unit of workload that shares local host, consists of one or more containers |
+|  Container    | A instantialtion of Docker image |
+|  Sidecar    | An additional container in the pod that performas supporting fucntion (proxu/logging etc) |
+|  Service    | An entity you can address that load-balances betwen pods, as opposed to address each pod individually |
+|  Horizontal Pod Autoscaler    | Rules to define how many pods to run |
+|  Resources: CPU/MEM    | Requests and limits or compute resources |
+|  Deployment    | Defines workload, allows rolling updates |
+|  Rollout    | Deployedment + advanced canary deployment |
+|  ReplicaSet    | Controls number of running pods and groups them. Created by DeploymentRollout |
+|  Ingress    | Definition of the inbound "gate" for the traffic into Kubernetes |
+|  ConfigMap    | Key-value entry |
+|  Secrets    | Opaque ConfigMap |
+|  ServiceAccount    | The account that can be granted permissions and attached to a pod. IAM role is possible to be attached in EKS |
+|  PodDisruptionBudget    | Assertion on how many pods should run at minimum durign nodes drain/replacement |
+|  Istio VirtualService    | Istio-sprcific |
+|  ServiceEntry    | Istio-specific. Specifies exteranlservices that are outside the service mesh |
+
 **Kubernetes**
 
 When a microservice application is deployed in production, it usually has many running containers that need to be allocated the right amount of resources in response to user demands. Also, there is a need to ensure that the containers are online, are running, and are communicating with one another. The need to efficiently manage and coordinate clusters of containerized applications gave rise to Kubernetes.
@@ -8,6 +42,13 @@ Kubernetes is a software system that addresses the concerns of deploying, scalin
 
 Kubernetes was built and released by Google as an open source software, which is now managed by the Cloud Native Computing Foundation (CNCF) . Google Cloud Platform offers a managed Kubernetes service called Google Kubernetes Engine (GKE). Amazon Elastic Container Service for Kubernetes (EKS) also provides a managed Kubernetes service.
 
+- Kubernetes maintains high availability and fault tolerance through replication, self-healing, and automated scaling.
+- A Kubernetes cluster consists of a master node and multiple worker nodes.
+- The master node manages the cluster, while worker nodes host containers.
+- Key components of the master node include the API Server, Etcd, Controller Manager, and Scheduler.
+
+Pods are the smallest deployable units in Kubernetes - They can contain one or more containers that share the same network namespace.
+
 **Components of Kubernetes**
 
 - Master Node: Controls and manages the cluster. Manages the Kubernetes cluster. There may be more than one master node in high availability mode for fault-tolerance purposes. In this case, only one is the master, and the others follow. 
@@ -15,7 +56,6 @@ Kubernetes was built and released by Google as an open source software, which is
 - Etcd: Consistent and highly-available key-value store.
 - Kubelet: Ensures containers are running in a Pod.
 - Kube Proxy: Maintains network rules.
-
 
 ### Kubernetes Cluster
 
@@ -109,7 +149,7 @@ Version history and rollback capabilities with YAML files.
 
 Kubectl is the primary command-line interface for interacting with Kubernetes clusters, offering a wide range of functionality for managing resources.
 
-## Basic kubectl command
+### Basic kubectl command
 
 ```
 kubectl create deployment [name]
@@ -121,6 +161,147 @@ kubectl delete deployment [name]
 ```
 kubectl get node | pod | services | replicaset | deployment
 ```
+
+### Load Balancer in Kubernetes
+
+Ensuring efficient distribution of traffic across pods/nodes.
+
+Improving scalability, reliability, and high availability.
+
+Enhancing fault tolerance: redirecting traffic in case of pod/node failures. 
+
+Configurable parameters and annotations allow fine-tuning of load balancing strategies.
+
+In Kubernetes, Services act as Load Balancers
+
+
+### Desired State Configuration (DSC) in Kubernetes
+
+Automated Reconciliation in Kubernetes  
+
+Kubernetes continuously monitors the cluster's state.
+
+Kubernetes DSC ensures that the cluster components, applications, and configurations match the defined desired state.
+
+Automatic reconciliation reduces manual intervention, making the cluster self-healing and ensuring high availability.
+
+By defining the desired state, operators can set specific configurations, security policies, and resource limits, ensuring consistency across deployments.
+
+## Kubernetes Deployment
+
+Understanding Replica Sets and Pods.
+Creating and managing a basic Deployment.
+Scaling applications using Deployments - HPA based on CPU utilization
+Performing rolling updates and rollbacks.
+
+- How to define deployments with their Configuration and Specifications
+- Creating Deployment configurations using YAML.
+- What are the different types of deployments and when to use them.
+
+- Ensuring High Availability and Fault Tolerance: 
+
+Deployments provide an abstraction layer, managing replica sets and pods, ensuring your application is always available even if one or more instances fail.
+
+- Rolling Updates and Rollbacks for Seamless Deployments: 
+
+Deployments allow you to update your application without downtime, ensuring smooth transitions between versions. If issues arise, rollbacks can be executed quickly.
+
+- Zero-Downtime Deployments and Scalability: 
+
+With rolling updates, new versions of your application can be deployed with zero downtime. Additionally, Deployments enable easy scaling, both vertically and horizontally, to handle varying workloads.
+
+- Key Points:
+
+  Deployments in Kubernetes offer crucial features for managing applications, including high availability, seamless updates, rollbacks, and scalability.
+
+  By abstracting the underlying complexity, Deployments simplify the management of applications, allowing focus on functionality and user experience.
+
+  Deployments act as the cornerstone of Kubernetes, providing essential features for managing applications efficiently.
+
+### Creating Kubernetes Deployments: Configuration and Specification
+
+Defining Deployments in YAML: Configuration and Specifications
+
+In Kubernetes, deployments are defined using YAML files, allowing for precise configuration and specifications.
+
+Understanding the YAML Structure: API Version, Kind, Metadata, and Spec
+
+ - API Version: Specifies the Kubernetes API version to use for this object.
+
+ - Kind: Defines the type of Kubernetes object, e.g., Deployment, Service.
+
+ - Metadata: Contains information like name, labels, and annotations.
+
+ - Spec: Specifies the desired state of the Deployment, including pod template and replicas.
+
+
+To apply this Deployment, save the YAML content to a file (e.g.,nginx-deployment.yaml) and use the kubectl apply command: 
+
+```
+kubectl apply -f nginx-deployment.yaml
+```
+
+### Replica Sets and Labels: Specifying Desired Replica Count and Identifying Pods
+
+
+Replica Sets: Ensure the desired number of pod replicas are running at any given time.
+
+Labels: Identifiers used to select and manage subsets of pods.
+
+### Selectors and Templates: Defining Pod Templates with Containers, Ports, and Volumes
+
+Selectors: Criteria used to identify which pods belong to a Replica Set.
+
+Templates: Define pod specifications, including containers, ports, and storage volumes.
+
+### Pod Templates and Stateful vs. Stateless Deployments
+
+Pod Templates
+
+In Kubernetes, a pod template is a blueprint used to create pods. It defines the configuration of containers within the pod, including the Docker image to use, resources like CPU and memory limits, and environment variables. Pod templates also specify how data is stored through volumes, allowing for various types of storage, such as temporary or persistent data. Additionally, ports are mapped within pod templates, allowing communication between containers inside the pod and with external services.
+
+Pod Templates: Specifying Containers, Volumes, and Ports:
+
+  Containers: Defining the application containers, specifying the image, resources, and environment variables.
+
+  Volumes: Configuring data storage, defining the type (emptyDir, hostPath, persistentVolumeClaim, etc.).
+
+  Ports: Mapping container ports to host ports, allowing external access.
+
+
+### Stateful and Stateless Deployments: Differences and Use Cases
+
+Stateful Deployments: Applications that require stable network identities, persistent storage, and ordered deployment.
+
+Use Cases: Databases, key-value stores, applications relying on unique network identifiers.
+
+Stateless Deployments: Applications where each instance is independent and can handle requests without relying on previous states.
+
+Use Cases: Web servers, microservices, stateless APIs.
+
+### Scaling and Rolling Updates
+
+Deployments enable horizontal scaling to handle varying workloads and vertical scaling for optimizing resource utilization.
+
+Rolling updates ensure seamless transitions between application versions, maintaining high availability.
+
+Rollbacks provide a safety net, allowing quick reverting to previous versions in case of deployment issues.
+
+### Deployment Security
+
+  Role-Based Access Control (RBAC) in Deployments.
+  Secrets Management: Safeguarding Sensitive Information.
+  Network Policies: Controlling Communication Between Pods.
+  Runtime Security: Scanning Containers for Vulnerabilities.
+
+
+### Best Practices for Kubernetes Deployments
+
+  Labels and Selectors: Effective Use in Deployments.
+  Resource Requests and Limits: Optimizing Resource Utilization.
+  Monitoring and Logging: Ensuring Health and Performance.
+  Security Policies: Protecting Deployed Applications.
+
 
 ### Step 1 - Start Minikube
 
