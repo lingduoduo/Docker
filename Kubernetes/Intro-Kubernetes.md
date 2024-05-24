@@ -10,10 +10,22 @@ Kubernetes was built and released by Google as an open source software, which is
 
 **Components of Kubernetes**
 
-- Master node(s): Manages the Kubernetes cluster. There may be more than one master node in high availability mode for fault-tolerance purposes. In this case, only one is the master, and the others follow.
-- Worker node(s): Machine(s) that runs containerized applications that are scheduled as pod(s).
+- Master Node: Controls and manages the cluster. Manages the Kubernetes cluster. There may be more than one master node in high availability mode for fault-tolerance purposes. In this case, only one is the master, and the others follow. 
+-  Worker node(s): Worker machine where containers are launched. Machine(s) that runs containerized applications that are scheduled as pod(s).
+- Etcd: Consistent and highly-available key-value store.
+- Kubelet: Ensures containers are running in a Pod.
+- Kube Proxy: Maintains network rules.
 
-### Launch Single Node Kubernetes Cluster
+
+### Kubernetes Cluster
+
+- How we can deploy our Machine learning models using this Architecture
+- What are the Master and Worker Node Components, How we can use them to deploy our ML Models.
+- How we can use YAML files by providing our requirements
+- Use cases of kubectl cli to communicate to our cluster
+- What is DSC and how we can benefit from that
+
+Gain Insights into Scaling and High Availability
 
 #### Step 1 - Start Minikube
 
