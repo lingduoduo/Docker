@@ -27,6 +27,97 @@ Kubernetes was built and released by Google as an open source software, which is
 
 Gain Insights into Scaling and High Availability
 
+Control Plane's Role: The Control Plane oversees container distribution across nodes, issuing deployment commands and managing container placement.
+
+Developer Interaction: Developers use Kubectl within the Control Plane to command the deployment of containers. They specify details like the number of containers and their types.
+
+YAML Configuration Files: YAML files contain vital application configurations, such as container names, replica numbers, pod details, and service settings (e.g., load balancer configurations). These files guide container deployment.
+
+Kubectl Communication: Developers send YAML files to the Control Plane via Kubectl, enabling seamless communication and ensuring the accurate deployment of containers based on specified configurations.
+
+### Container Deployment Process
+
+Interaction with Kubelet: Deployment involves communication with Kubelet, a key Kubernetes component within nodes.
+
+Request Handling: Kubelet processes commands issued by the Scheduler & Controller Manager, initiating container deployment within specific nodes, such as Node1 with Container-1 & Container-2.
+
+Impact of Node Failure: If a node, like Node 2, crashes, containers on that node (e.g., Container-3) are affected.
+
+Desired State Configuration (DSC): Kubernetes uses Desired State Configuration (DSC) to ensure the desired number of containers (e.g., 5) specified by the developer are consistently running in the cluster, even in the event of node failures.
+
+### Container Recovery Process
+
+Automatic Rescheduling: If a container crashes, Kubernetes initiates automatic rescheduling on other available nodes.
+
+Resource Availability Check: Kubernetes checks available resources, starting with Node-1, and moves to Node-3 if resources are insufficient on the first node.
+
+Ensuring Container Uptime: Kubernetes ensures all containers remain operational by redistributing them across healthy nodes.
+
+### User Access to Applications
+
+Direct Node Access: Users can access applications installed in nodes directly, bypassing the Control Plane.
+
+Load Balancer Implementation: Instead of accessing containers directly, users go through a Load Balancer, which distributes requests across multiple application instances (e.g., Container-4, Container-1, Container-2, Container-3) based on its decisions.
+
+### Key Concepts
+
+Pods:
+Pods are high level structure that wrap one or more containers. This is because containers are not run directly in Kubernetes, Containers in the same pod share a local network & the same resources, allowing them to easily communicate with other containers in the same pod as if they are on the same machine while at the same time maintaining a degree of isolation.
+
+Kube-scheduler:
+Assigns Nodes to newly created Pods.
+
+NameSpace:
+Used for dividing cluster resources between multiple users.
+Initial NameSpaces – Default, Kube-system, Kube-public.
+
+Kubelet:
+Is a service agent that controls & maintains a set of pods by watching for pod specs through the Kubernetes api server. It preserves the pod life-cycle by ensuring that a given set of containers are all running as they should.
+The Kubelet runs on each Node & enables the communication b/w the Master and Slave Nodes.
+
+Kube-proxy:
+Is responsible for directing traffic to the right container based on IP and Port Number of Incoming requests.
+
+Kubernetes Master Components
+Etcd: The Cluster's Brain
+Distributed Key-Value Store for Config Data
+
+API Server: Frontend to the Cluster Control Plane
+Validates and Configures Data for API Objects
+
+Controller Manager: Maintaining Desired State
+Regulates the State of the System
+
+Scheduler: Assigning Work to Nodes
+Selects Nodes for Pods to Run Based on Policies
+
+### Interacting with Kubernetes: Kubectl CLI and YAML Files
+
+Kubectl (Kube Control) is the command-line tool for interacting with Kubernetes clusters.
+
+Key commands: kubectl get, kubectl create, kubectl apply, kubectl delete
+
+YAML (YAML Ain't Markup Language) is used for configuration and resource definition in Kubernetes.
+
+Structure: API version, kind, metadata, spec.
+
+Kubectl provides a powerful interface for managing clusters, allowing both beginners and experts to interact with Kubernetes.
+
+YAML files offer a declarative and version-controlled way to define and manage Kubernetes resources.
+
+Version history and rollback capabilities with YAML files.
+
+Kubectl is the primary command-line interface for interacting with Kubernetes clusters, offering a wide range of functionality for managing resources.
+
+```
+kubectl create deployment [name]
+kubectl edit deployment [name]
+kubectl delete deployment [name]
+```
+
+```
+kubectl get node | pod | services | replicaset | deployment
+
 #### Step 1 - Start Minikube
 
 Minikube has been installed and configured in the environment. Check that it is properly installed, by running the *minikube version* command:
