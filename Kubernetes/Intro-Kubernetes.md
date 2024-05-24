@@ -109,16 +109,20 @@ Version history and rollback capabilities with YAML files.
 
 Kubectl is the primary command-line interface for interacting with Kubernetes clusters, offering a wide range of functionality for managing resources.
 
+## Basic kubectl command
+
 ```
 kubectl create deployment [name]
 kubectl edit deployment [name]
 kubectl delete deployment [name]
 ```
 
+
 ```
 kubectl get node | pod | services | replicaset | deployment
+```
 
-#### Step 1 - Start Minikube
+### Step 1 - Start Minikube
 
 Minikube has been installed and configured in the environment. Check that it is properly installed, by running the *minikube version* command:
 
