@@ -106,7 +106,7 @@ EKS is Amazon's implementation of the Kubernetes. Most of the K8S concentps are 
 |  Istio VirtualService    | Istio-sprcific |
 |  ServiceEntry    | Istio-specific. Specifies exteranlservices that are outside the service mesh |
 
-'''
+```
 kubectl get pods
 
 kubectl run nginx --image=nginx
@@ -116,9 +116,8 @@ kubectl describe pod nginx
 kubectl get pods -o wide
 
 kubectl run redis --image=redis123 --dry-run -o yaml
-'''
 
+kubectl run redis --image=redis123 --dry-run=client -o yaml > redis-pod.yaml
 
-
-
-
+kubectl create -f redis-pod.yaml
+```

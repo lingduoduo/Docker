@@ -33,15 +33,15 @@
 
 `常用namespace操作：`
 
-- `kubectlgetnamespace, 查询所有namespace`
-- `kubectl createnamespacens-name，创建namespace`
-- `kubectldeletenamespacens-name, 删除namespace`
+- `kubectl get namespace, 查询所有namespace`
+- `kubectl create namespacens-name，创建namespace`
+- `kubectld elete namespacens-name, 删除namespace`
 
 `删除命名空间时，需注意以下几点：`
 
 1. `删除一个namespace会自动删除所有属于该namespace的资源。`
 2. `default 和 kube-system 命名空间不可删除。`
-3. `PersistentVolumes是不属于任何namespace的，但PersistentVolumeClaim是属于某个特定namespace的。`
+3. `Persistent Volumes是不属于任何namespace的，但Persistent VolumeClaim是属于某个特定namespace的。`
 4. `Events是否属于namespace取决于产生events的对象。`
 
 #### `3、Node`
@@ -50,7 +50,7 @@
 
 `常用node操作：`
 
-- `kubectlgetnodes，查询所有node`
+- `kubectl get nodes，查询所有node`
 - `kubectl cordon $nodename, 将node标志为不可调度`
 - `kubectl uncordon $nodename, 将node标志为可调度`
 
