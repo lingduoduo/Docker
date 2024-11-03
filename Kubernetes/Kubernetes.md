@@ -120,4 +120,6 @@ kubectl run redis --image=redis123 --dry-run -o yaml
 kubectl run redis --image=redis123 --dry-run=client -o yaml > redis-pod.yaml
 
 kubectl create -f redis-pod.yaml
+
+kubectl apply -f redis-pod.yaml
 ```
