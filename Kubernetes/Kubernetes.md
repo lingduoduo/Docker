@@ -109,11 +109,11 @@ EKS is Amazon's implementation of the Kubernetes. Most of the K8S concentps are 
 ```
 kubectl get pods
 
+kubectl get pods -o wide
+
 kubectl run nginx --image=nginx
 
 kubectl describe pod nginx
-
-kubectl get pods -o wide
 
 kubectl run redis --image=redis123 --dry-run -o yaml
 
