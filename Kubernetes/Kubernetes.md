@@ -105,3 +105,20 @@ EKS is Amazon's implementation of the Kubernetes. Most of the K8S concentps are 
 |  PodDisruptionBudget    | Assertion on how many pods should run at minimum durign nodes drain/replacement |
 |  Istio VirtualService    | Istio-sprcific |
 |  ServiceEntry    | Istio-specific. Specifies exteranlservices that are outside the service mesh |
+
+'''
+kubectl get pods
+
+kubectl run nginx --image=nginx
+
+kubectl describe pod nginx
+
+kubectl get pods -o wide
+
+kubectl run redis --image=redis123 --dry-run -o yaml
+'''
+
+
+
+
+
