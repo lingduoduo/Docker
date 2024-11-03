@@ -408,6 +408,30 @@ and apply them using kubectl apply -f <filename> for each service type.
 Note that LoadBalancer services may require additional configuration based on your cloud provider. 
 
 
+## Scaling with Kubernetes Deploymnets
+
+Managing Replicas: Horizontal and Vertical Scaling.
+
+Horizontal Scaling: Increasing or decreasing the number of pod replicas based on demand.
+
+Vertical Scaling: Adjusting the resources (CPU, memory) allocated to individual pods.
+
+Hook
+
+Imagine an online streaming platform gearing up for the premiere of a highly anticipated series. As the clock ticks down to the release time, viewers from around the world start logging in simultaneously, generating an unprecedented surge in traffic. Now, picture a scenario where this platform seamlessly scales its infrastructure to handle the skyrocketing demand without a glitch. This seamless orchestration of scaling and updates is not just a dream but a reality powered by Kubernetes. 
+
+- What is Horizontal Pod Auto Scaling, When we need to use this kind of autoscaling.
+- What is Vertical Pod Auto Scaling, When we need to use this kind of autoscaling.
+- How we can use these through YAML files
+- Cost optimization - Scale applications up or down based on demand
+- What is Cluster Auto Scaling, how is it different from HPA / VPA?
+
+
+
+
+
+
+
 
 ### Step 1 - Start Minikube
 
