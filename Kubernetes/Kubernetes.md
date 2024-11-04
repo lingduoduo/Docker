@@ -122,4 +122,12 @@ kubectl run redis --image=redis123 --dry-run=client -o yaml > redis-pod.yaml
 kubectl create -f redis-pod.yaml
 
 kubectl apply -f redis-pod.yaml
+
+kubectl create -f rc-definition.yaml
+
+kubectl create -f replicaset-definition.yaml
+
+kubectl replace -f replicaset-definition.yaml
+
+kubectl scale --replicas=6 -f replicaset-definition.yaml
 ```
