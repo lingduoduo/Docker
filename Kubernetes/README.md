@@ -603,9 +603,39 @@ EKS is Amazon's implementation of the Kubernetes. Most of the K8S concentps are 
 |  ServiceEntry    | Istio-specific. Specifies exteranlservices that are outside the service mesh |
 
 ```
+minikube start
+
+# Run a test container image that includes a webserver
+kubectl create deployment hello-node --image=registry.k8s.io/e2e-test-images/agnhost:2.39 -- /agnhost netexec --http-port=8080
+
+kubectl get deployments
+
 kubectl get pods
 
 kubectl get pods -o wide
+
+kubectl get events
+
+kubectl logs hello-node-5f76cf6ccf-br9b5
+
+kubectl expose deployment hello-node --type=LoadBalancer --port=8080
+
+kubectl get services
+
+minikube service hello-node
+
+kubectl get pod,svc -n kube-system
+
+kubectl delete service hello-node
+
+kubectl delete deployment hello-node
+
+minikube stop
+```
+
+
+```
+minikube start
 
 kubectl run nginx --image=nginx
 
