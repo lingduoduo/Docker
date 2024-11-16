@@ -656,4 +656,6 @@ kubectl create -f replicaset-definition.yaml
 kubectl replace -f replicaset-definition.yaml
 
 kubectl scale --replicas=6 -f replicaset-definition.yaml
+
+
 ```
