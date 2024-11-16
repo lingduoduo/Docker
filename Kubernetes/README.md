@@ -653,9 +653,19 @@ kubectl create -f rc-definition.yaml
 
 kubectl create -f replicaset-definition.yaml
 
+```
+Labels and Selectors
+
+Label pods to be monitored.
+
+Scale the pods
+
+```
 kubectl replace -f replicaset-definition.yaml
 
 kubectl scale --replicas=6 -f replicaset-definition.yaml
 
+kubectl scale --replicas=6 relicaset myapp-replicaset
 
 ```
+
