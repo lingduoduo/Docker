@@ -65,3 +65,4 @@ The Kubernetes dashboard allows you to view your applications in a UI. In this d
 To see the progress of the Dashboard starting, watch the Pods within the *kube-system* namespace using `kubectl get pods -n kubernetes-dashboard -w`
 
 Once running, the URL to the dashboard is https://2886795290-30000-host12nc.environments.katacoda.com/
+

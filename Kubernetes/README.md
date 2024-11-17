@@ -291,7 +291,6 @@ kubectl apply -f redis-pod.yaml
 kubectl create -f rc-definition.yaml
 
 kubectl create -f replicaset-definition.yaml
-
 ```
 
 Deployment
@@ -316,7 +315,6 @@ kubectl get deployments
 kubectl get rs 
 kubectl get pods
 kubectl describe pod frontend-deployment-name-... 
-
 ```
 ### Replica Sets and Labels: Specifying Desired Replica Count and Identifying Pods
 
@@ -336,7 +334,6 @@ kubectl scale --replicas=6 relicaset myapp-replicaset
 kubectl get relicaset 
 
 kubectl describe replicaset new-replica-set
-
 ```
 
 ### Selectors and Templates: Defining Pod Templates with Containers, Ports, and Volumes
@@ -379,18 +376,19 @@ Rolling updates ensure seamless transitions between application versions, mainta
 
 Rollbacks provide a safety net, allowing quick reverting to previous versions in case of deployment issues.
 
-```
-kubectl rollout status deployment/myapp-deployment
-kubectl rollout history deployment/myapp-deployment
-```
-
-Apply changes
-```
-kubectl apply -f deployment-definition.yml
-kubectl set image deployment/my-app-dep
-```
-
 Recreate vs Rolling Update
+
+```
+kubectl create -f deployment.yaml --record
+kubectl rollout status deployment.apps/myapp-deployment
+kubectl rollout history deployment.apps/myapp-deployment
+
+kubectl describe deployment.apps/myapp-deployment
+kubectl edit deployment myapp-deployment --record
+kubectl set image deployment  myapp-deployment nginx:1.18-perl --record
+
+kubectl rollout undo deployment.apps/myapp-deployment
+```
 
 ### Deployment Security
 
@@ -601,5 +599,5 @@ Understanding and Using Containers
   <html><body><h1>It works!</h1></body></html>
   
   ➜  Docker git:(master) ✗ docker run -it busybox
-  
+  ```
   And ctrl-p, ctrl-q to disconnect and keep it running
