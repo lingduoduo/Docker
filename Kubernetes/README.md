@@ -157,9 +157,39 @@ kubectl edit deployment [name]
 kubectl delete deployment [name]
 ```
 
-
 ```
 kubectl get node | pod | services | replicaset | deployment
+```
+
+```
+minikube start
+
+# Run a test container image that includes a webserver
+kubectl create deployment hello-node --image=registry.k8s.io/e2e-test-images/agnhost:2.39 -- /agnhost netexec --http-port=8080
+
+kubectl get deployments
+
+kubectl get pods
+
+kubectl get pods -o wide
+
+kubectl get events
+
+kubectl logs hello-node-5f76cf6ccf-br9b5
+
+kubectl expose deployment hello-node --type=LoadBalancer --port=8080
+
+kubectl get services
+
+minikube service hello-node
+
+kubectl get pod,svc -n kube-system
+
+kubectl delete service hello-node
+
+kubectl delete deployment hello-node
+
+minikube stop
 ```
 
 ### Load Balancer in Kubernetes
@@ -235,12 +265,59 @@ Understanding the YAML Structure: API Version, Kind, Metadata, and Spec
  - Spec: Specifies the desired state of the Deployment, including pod template and replicas.
 
 
+```
+minikube start
+
+kubectl run nginx --image=nginx
+
+kubectl describe pod nginx
+
+kubectl run redis --image=redis123 --dry-run -o yaml
+
+kubectl run redis --image=redis123 --dry-run=client -o yaml > redis-pod.yaml
+```
+
 To apply this Deployment, save the YAML content to a file (e.g.,nginx-deployment.yaml) and use the kubectl apply command: 
 
 ```
 kubectl apply -f nginx-deployment.yaml
+
+# Use Yaml to create pods
+
+kubectl create -f redis-pod.yaml
+
+kubectl apply -f redis-pod.yaml
+
+kubectl create -f rc-definition.yaml
+
+kubectl create -f replicaset-definition.yaml
+
 ```
 
+Deployment
+
+kind: Deployment
+
+metadata - name, labesl
+spec - template, replica, selectors
+
+```
+kubectl create -f deployment.yml
+kubectl get deployments
+kubectl get replicaset
+kubectl get pods
+kubectl describe deploymnent myapp-deployment
+kubectl get all
+```
+
+```
+kubectl create deployment httpd-frontend --image=httpd:2.4-alpine --replicas=3 
+kubectl get deployments
+kubectl get rs 
+kubectl get pods
+kubectl describe pod frontend-deployment-name-... 
+
+```
 ### Replica Sets and Labels: Specifying Desired Replica Count and Identifying Pods
 
 
@@ -248,11 +325,26 @@ Replica Sets: Ensure the desired number of pod replicas are running at any given
 
 Labels: Identifiers used to select and manage subsets of pods.
 
+
+```
+kubectl replace -f replicaset-definition.yaml
+
+kubectl scale --replicas=6 -f replicaset-definition.yaml
+
+kubectl scale --replicas=6 relicaset myapp-replicaset
+
+kubectl get relicaset 
+
+kubectl describe replicaset new-replica-set
+
+```
+
 ### Selectors and Templates: Defining Pod Templates with Containers, Ports, and Volumes
 
 Selectors: Criteria used to identify which pods belong to a Replica Set.
 
 Templates: Define pod specifications, including containers, ports, and storage volumes.
+
 
 ### Pod Templates and Stateful vs. Stateless Deployments
 
@@ -286,6 +378,19 @@ Deployments enable horizontal scaling to handle varying workloads and vertical s
 Rolling updates ensure seamless transitions between application versions, maintaining high availability.
 
 Rollbacks provide a safety net, allowing quick reverting to previous versions in case of deployment issues.
+
+```
+kubectl rollout status deployment/myapp-deployment
+kubectl rollout history deployment/myapp-deployment
+```
+
+Apply changes
+```
+kubectl apply -f deployment-definition.yml
+kubectl set image deployment/my-app-dep
+```
+
+Recreate vs Rolling Update
 
 ### Deployment Security
 
@@ -426,73 +531,6 @@ Imagine an online streaming platform gearing up for the premiere of a highly ant
 - Cost optimization - Scale applications up or down based on demand
 - What is Cluster Auto Scaling, how is it different from HPA / VPA?
 
-### Step 1 - Start Minikube
-
-Minikube has been installed and configured in the environment. Check that it is properly installed, by running the *minikube version* command:
-
-```
-minikube version
-```
-
-Start the cluster, by running the *minikube start* command:
-
-```
-minikube start --wait=false
-```
-
-Great! You now have a running Kubernetes cluster in your online terminal. Minikube started a virtual machine for you, and a Kubernetes cluster is now running in that VM.
-
-#### Step 2 - Cluster Info
-
-The cluster can be interacted with using the *kubectl* CLI. This is the main approach used for managing Kubernetes and the applications running on top of the cluster.
-
-Details of the cluster and its health status can be discovered via `kubectl cluster-info`
-
-To view the nodes in the cluster using `kubectl get nodes`
-
-If the node is marked as **NotReady** then it is still starting the components.
-
-This command shows all nodes that can be used to host our applications. Now we have only one node, and we can see that it’s status is ready (it is ready to accept applications for deployment).
-
-#### Step 3 - Deploy Containers
-
-With a running Kubernetes cluster, containers can now be deployed.
-
-Using `kubectl run`, it allows containers to be deployed onto the cluster -
-
- `kubectl create deployment first-deployment --image=katacoda/docker-http-server`
-
-The status of the deployment can be discovered via the running Pods - `kubectl get pods`
-
-Once the container is running it can be exposed via different networking options, depending on requirements. One possible solution is NodePort, that provides a dynamic port to a container.
-
-```
-kubectl expose deployment first-deployment --port=80 --type=NodePort
-```
-
-The command below finds the allocated port and executes a HTTP request.
-
-```
-export PORT=$(kubectl get svc first-deployment -o go-template='{{range.spec.ports}}{{if .nodePort}}{{.nodePort}}{{"\n"}}{{end}}{{end}}') echo "Accessing host01:$PORT" curl host01:$PORT
-```
-
-The result is the container that processed the request.
-
-#### Step 4 - Dashboard
-
-Enable the dashboard using Minikube with the command `minikube addons enable dashboard`
-
-Make the Kubernetes Dashboard available by deploying the following YAML definition. This should only be used on Katacoda.
-
-```
-kubectl apply -f /opt/kubernetes-dashboard.yaml
-```
-
-The Kubernetes dashboard allows you to view your applications in a UI. In this deployment, the dashboard has been made available on port *30000* but may take a while to start.
-
-To see the progress of the Dashboard starting, watch the Pods within the *kube-system* namespace using `kubectl get pods -n kubernetes-dashboard -w`
-
-Once running, the URL to the dashboard is https://2886795290-30000-host12nc.environments.katacoda.com/
 
 Introduction for Container Orchestration
 
@@ -565,107 +603,3 @@ Understanding and Using Containers
   ➜  Docker git:(master) ✗ docker run -it busybox
   
   And ctrl-p, ctrl-q to disconnect and keep it running
-
-  ```
-
-Understanding Kubernetes
-
-- Understanding Kubernetes Core Functions
-  - Kubernettes is. an open-source system for automating. deployment, scaling and managing of containerized applications
-- Understanding Kubernetes Origins
-- Understanding Kubernetes Management interfaces
-  - API/REST -> etcd
-    - The kubernetes API defines objects in a Kubernetes environment
-    - kubectl commands - the kubectl command line utility provides convenient administrator access, allowing us to run many tasks against the cluster
-    - dashboard
-    - Direct API access using commands, such as curl allows develpers to addresst the cluster using API calls from custom scripts (curl, python code))
-
-EKS is Amazon's implementation of the Kubernetes. Most of the K8S concentps are universal ot any Kubernetes platfrom, unless stated otherwise.
-
-| K8s/EKS | Description                                                  |
-| ------- | ------------------------------------------------------------ |
-| Image   | Docker image                                                 |
-| Pod     | A unit of workload that shares local host, consists of one or more containers |
-|  Container    | A instantialtion of Docker image |
-|  Sidecar    | An additional container in the pod that performas supporting fucntion (proxu/logging etc) |
-|  Service    | An entity you can address that load-balances betwen pods, as opposed to address each pod individually |
-|  Horizontal Pod Autoscaler    | Rules to define how many pods to run |
-|  Resources: CPU/MEM    | Requests and limits or compute resources |
-|  Deployment    | Defines workload, allows rolling updates |
-|  Rollout    | Deployedment + advanced canary deployment |
-|  ReplicaSet    | Controls number of running pods and groups them. Created by DeploymentRollout |
-|  Ingress    | Definition of the inbound "gate" for the traffic into Kubernetes |
-|  ConfigMap    | Key-value entry |
-|  Secrets    | Opaque ConfigMap |
-|  ServiceAccount    | The account that can be granted permissions and attached to a pod. IAM role is possible to be attached in EKS |
-|  PodDisruptionBudget    | Assertion on how many pods should run at minimum durign nodes drain/replacement |
-|  Istio VirtualService    | Istio-sprcific |
-|  ServiceEntry    | Istio-specific. Specifies exteranlservices that are outside the service mesh |
-
-```
-minikube start
-
-# Run a test container image that includes a webserver
-kubectl create deployment hello-node --image=registry.k8s.io/e2e-test-images/agnhost:2.39 -- /agnhost netexec --http-port=8080
-
-kubectl get deployments
-
-kubectl get pods
-
-kubectl get pods -o wide
-
-kubectl get events
-
-kubectl logs hello-node-5f76cf6ccf-br9b5
-
-kubectl expose deployment hello-node --type=LoadBalancer --port=8080
-
-kubectl get services
-
-minikube service hello-node
-
-kubectl get pod,svc -n kube-system
-
-kubectl delete service hello-node
-
-kubectl delete deployment hello-node
-
-minikube stop
-```
-
-
-```
-minikube start
-
-kubectl run nginx --image=nginx
-
-kubectl describe pod nginx
-
-kubectl run redis --image=redis123 --dry-run -o yaml
-
-kubectl run redis --image=redis123 --dry-run=client -o yaml > redis-pod.yaml
-
-kubectl create -f redis-pod.yaml
-
-kubectl apply -f redis-pod.yaml
-
-kubectl create -f rc-definition.yaml
-
-kubectl create -f replicaset-definition.yaml
-
-```
-Labels and Selectors
-
-Label pods to be monitored.
-
-Scale the pods
-
-```
-kubectl replace -f replicaset-definition.yaml
-
-kubectl scale --replicas=6 -f replicaset-definition.yaml
-
-kubectl scale --replicas=6 relicaset myapp-replicaset
-
-```
-
