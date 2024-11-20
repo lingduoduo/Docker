@@ -1,0 +1,75 @@
+git log --pretty="- %s" > CHANGELOG.md
+- add code
+- add code
+- add code
+- add code
+- add code
+- add code
+- add code
+- add code
+- add code
+- add code
+- add code
+- add code
+- Update Kubernetes.md
+- add code
+- updates
+- add code
+- add code
+- add code
+- add code
+- add code
+- Update setup.py
+- Merge branch 'master' of github.com:lingduoduo/Docker
+- add code
+- Update README.md
+- Update setup.py
+- add code
+- add code
+- add code
+- Update README.md
+- Update README.md
+- Update README.md
+- add code
+- Merge branch 'master' of https://github.com/lingduoduo/Docker
+- add code
+- Rename Docker for ML to Docker_for_ML.md
+- Create Docker for ML
+- add notes
+- add notes
+- add notes
+- Update docker-setup.sh
+- Update docker-setup.sh
+- Update Kubernetes.md
+- add code
+- add code
+- add code
+- Merge branch 'master' of https://github.com/linghduoduo/Docker
+- add code
+- Update README.md
+- add code
+- add code
+- add code
+- add code
+- add code
+- add code
+- add code
+- add code
+- add codes
+- add code
+- add code
+- add code
+- add code
+- add code
+- add code
+- rearrangement
+- add docker code
+- add code
+- add code
+- add code
+- change name
+- change name
+- Create Dockerfilw
+- Update README.md
+- Update README.md
+- Initial commit
