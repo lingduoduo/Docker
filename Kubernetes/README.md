@@ -326,13 +326,9 @@ Labels: Identifiers used to select and manage subsets of pods.
 
 ```
 kubectl replace -f replicaset-definition.yaml
-
 kubectl scale --replicas=6 -f replicaset-definition.yaml
-
 kubectl scale --replicas=6 relicaset myapp-replicaset
-
 kubectl get relicaset 
-
 kubectl describe replicaset new-replica-set
 ```
 
@@ -388,6 +384,7 @@ kubectl edit deployment myapp-deployment --record
 kubectl set image deployment  myapp-deployment nginx:1.18-perl --record
 
 kubectl rollout undo deployment.apps/myapp-deployment
+kubectl set image daployment frontend simple-web=kodekloud/web-color:v2
 ```
 
 ### Deployment Security
@@ -459,17 +456,17 @@ Types of Kubernetes Services
 
 Differentiating Types of Services:
 
-ClusterIP:
-
-Internal-only service accessible within the cluster.
-Ideal for inter-pod communication.
-Not accessible from outside the cluster.
-
 NodePort:
 
 Exposes the service on each node's IP at a static port.
 Accessible externally using <NodeIP>:<NodePort>.
 Useful for accessing services from outside the cluster during development.
+
+ClusterIP:
+
+Internal-only service accessible within the cluster.
+Ideal for inter-pod communication.
+Not accessible from outside the cluster.
 
 LoadBalancer:
 
@@ -509,6 +506,14 @@ Remember to save each configuration to separate files
 (e.g., nginx-clusterip-service.yaml, nginx-nodeport-service.yaml, nginx-loadbalancer-service.yaml, and external-service.yaml) 
 and apply them using kubectl apply -f <filename> for each service type. 
 Note that LoadBalancer services may require additional configuration based on your cloud provider. 
+
+```
+curl http://10.244.0.2
+
+TargetPort: 80
+Service Port: 80, ClusterIP Address
+NodePort: 3008
+```
 
 
 ## Scaling with Kubernetes Deploymnets
