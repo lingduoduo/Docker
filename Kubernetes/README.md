@@ -500,6 +500,11 @@ To apply any of these Service configuration, save the YAML content to a file and
 
 ```
 kubectl apply -f nginx-service.yaml
+
+kubectl get service
+kubectl get svc
+kubectl describe svc kubernetes
+
 ```
 
 Remember to save each configuration to separate files 
