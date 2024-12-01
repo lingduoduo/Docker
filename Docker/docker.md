@@ -149,11 +149,10 @@ cfd632821d7a        training/webapp     "python app.py"     21 seconds ago      
 
 查看容器日志信息
 ```
-docker logs -f cfd  # #不间断显示log
-```
+docker logs -f cfd  #不间断显示log
 
 # 也可以通过-p参数指定映射端口
-```
+
 docker run -d -p 9000:5000 training/webapp python app.py
 ```
 
