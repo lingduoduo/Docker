@@ -46,11 +46,13 @@ docker run -d redis:latest
 
 ```
 docker inspect <friendly-name|container-id>
-``` provides more details about a running container, such as IP address, volumes mounted and their locations and its current execution state.
+``` 
+provides more details about a running container, such as IP address, volumes mounted and their locations and its current execution state.
 
 ```
 docker logs <friendly-name|container-id>
-``` will display messages the container has written to standard error or standard out.
+``` 
+will display messages the container has written to standard error or standard out.
 
 #### Step 3 - Binding Ports
 
@@ -58,13 +60,19 @@ Each contianer is sandoxedf rom other containers. If a service needs to be acces
 
 When starting the container, you define which ports you want to bind using the *-p :* option. The Redis container exposes the service on port 6379. If you wanted to map this port directly on the host, we'd use the option *-p 6379:6379*.
 
-```docker run -d --name redisHostPort -p 6379:6379 redis:latest```
+```
+docker run -d --name redisHostPort -p 6379:6379 redis:latest
+```
 
 #### Step 4 - Binding Ports
 
-```docker run -d --name redisDynamic -p 6379 redis:latest```
+```
+docker run -d --name redisDynamic -p 6379 redis:latest
+```
 
-```docker port redisDynamic 6379```
+```
+docker port redisDynamic 6379
+```
 
 #### Step 5 - Binding Directories
 
@@ -72,7 +80,7 @@ Containers are designed to be stateless. Any data we want to be persisted after 
 
 Binding directories (also known as volumes) in Docker is similar to binding ports using the option *-v :*. When a directory is mounted, the files which exist in that directory on the host can be accessed by the container and any data changed/written to the directory inside the container will be stored on the host. This allows you to upgrade or change containers without losing your data. Docker allows you to use $PWD as a placeholder for the current directory.
 
-```docker run -d --name redisMapped -v "$PWD/data":/data redis
+```
 docker run -d --name redisMapped -v "$PWD/data":/data redis
 ```
 
@@ -82,5 +90,9 @@ docker run -d --name redisMapped -v "$PWD/data":/data redis
 
 As well as defining whether the container runs in the background or foreground, certain images allow you to override the command used to launch the image. Being able to replace the default command makes it possible to have a single image that can be re-purposed in multiple ways. For example, the Ubuntu image can either run OS commands or run an interactive bash prompt using */bin/bash*
 
-The command `docker run ubuntu ps` launches an Ubuntu container and executes the command *ps* to view all the processes running in a container.
+The command 
+```
+docker run ubuntu ps
+```
+launches an Ubuntu container and executes the command *ps* to view all the processes running in a container.
 

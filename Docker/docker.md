@@ -72,7 +72,7 @@ Docker run, the -i flag starts an interactive container. The -t flag creates a p
   - Copy Instruction copies new files or directories from build context and adds them to the file system of the container.   Use copy for the sake of transparency, unless you are absolutely sure you need ADD commands.
   - Add Instruction can not only copy files, but also allow you to download a file from. internet and copy to the container. It also has the ability to automatically unpack compressed files.
 
-
+```
 docker images
 docker tag 345867df0879  lingh/test
 docker login --username=lingh
@@ -80,7 +80,7 @@ docker push lingh/test:0.01
 ```
 
 - docker run container
-```
+
 1. 检查本地是否存在指定的镜像，不存在就从公有仓库下载
 2. 利用镜像创建并启动一个容器
 3. 分配一个文件系统，并在只读的镜像层外面挂在一层可读写层
@@ -88,10 +88,10 @@ docker push lingh/test:0.01
 5. 从地址池配置一个ip地址给容器
 6. 执行用户指定的应用程序
 7. 执行完毕后容器被终止%%
-```
+
+- docker stopped
 
 ```
-docker stopped
 [root@localhost ~]# docker ps -a  # 先查询记录
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                        PORTS                    NAMES
 ee92fcf6f32d        centos              "/bin/bash"              4 days ago          Exited (137) 3 days ago                                kickass_raman
@@ -102,42 +102,60 @@ ee9
 [root@localhost ~]# docker exec -it  ee9 /bin/bash  # 进入容器交互式界面
 [root@ee92fcf6f32d /]#   # 注意看用户名，已经变成容器用户名
 ```
+
 - docker run image
-```
+
 1.我们进入交互式的centos容器中，发现没有vim命令
+```
     docker run -it centos
+```
 2.在当前容器中，安装一个vim
+```
     yum install -y vim
+```
 3.安装好vim之后，exit退出容器
+```
     exit
+```
 4.查看刚才安装好vim的容器记录
+```
     docker container ls -a
+```
 5.提交这个容器，创建新的image
+```
     docker commit 059fdea031ba chaoyu/centos-vim
+```
 6.查看镜像文件
+```
     docker images%%
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 ling/centos-vim   latest              fd2685ae25fe        5 minutes ago       348MB
 ```
 
 - docker run with -p
+
 ```
 docker run -d -P training/webapp python app.py
+```
  -P 参数会随机映射端口到容器开放的网络端口
 
 检查映射的端口
+```
 docker ps -l
 CONTAINER ID        IMAGE               COMMAND             CREATED            STATUS              PORTS                     NAMES
 cfd632821d7a        training/webapp     "python app.py"     21 seconds ago      Up 20 seconds       0.0.0.0:32768->5000/tcp   brave_fermi
 #宿主机ip:32768 映射容器的5000端口
-
-查看容器日志信息
-docker logs -f cfd  # #不间断显示log
-
-# 也可以通过-p参数指定映射端口
-docker run -d -p 9000:5000 training/webapp python app.py
 ```
 
+查看容器日志信息
+```
+docker logs -f cfd  # #不间断显示log
+```
+
+# 也可以通过-p参数指定映射端口
+```
+docker run -d -p 9000:5000 training/webapp python app.py
+```
 
 **start/stop/restart**
 
