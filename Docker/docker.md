@@ -4,18 +4,23 @@
 
 创建一个新的容器。
 
+
+### 使用docker镜像nginx:latest以后台模式启动一个容器,# 并将容器命名为mynginx。  
 ```
-# 使用docker镜像nginx:latest以后台模式启动一个容器,# 并将容器命名为mynginx。  
 docker run --name mynginx -d nginx:latest  # 使用镜像 nginx:latest，以后台模式启动一个容器,
+```
 
-# 将容器的 80 端口映射到主机的 80 端口,# 主机的目录 /data 映射到容器的 /data。  
+### 将容器的 80 端口映射到主机的 80 端口,# 主机的目录 /data 映射到容器的 /data。  
+```
 docker run -p 80:80 -v /data:/data -d nginx:latest  # 使用镜像nginx:latest以交互模式启动一个容器,
+```
 
-# 在容器内执行/bin/bash命令。  
+### 在容器内执行/bin/bash命令。
+```  
 docker run -it nginx:latest /bin/bash  
 
 docker run -d -it --rm --name [CONTAINER_NAME] -p 8081:80 [IMAGE_NAME]
-
+```
 where
 
 - -d runs the container in detached mode. This mode runs the container in the background.
@@ -25,25 +30,37 @@ where
 - -p does port forwarding from host to the container (i.e., host:container) .
 
 后台运行一个docker
+```
 docker run -d centos /bin/sh -c "while true;do echo 正在运行; sleep 1;done"
+```
     # -d  后台运行容器
     # /bin/sh  指定使用centos的bash解释器
     # -c 运行一段shell命令
     # "while true;do echo 正在运行; sleep 1;done"  在linux后台，每秒中打印一次正在运行
     
 启动一个bash终端,允许用户进行交互
+```
 docker run --name mydocker -it centos /bin/bash  
     # --name  给容器定义一个名称
     # -i  让容器的标准输入保持打开
     # -t 让Docker分配一个伪终端,并绑定到容器的标准输入上
     # /bin/bash 指定docker容器，用shell解释器交互
+```
 
+```
 docker run busybox:latest echo "Hello World"
 docker run busybox:latest ls /
 docker run -d busybox:latest
 docker run -d busybox:latest sleep 1000
 docker run --name hello busybox:latest
 docker run -it -p 8888:8080 tomcat:latest
+
+docker run -d --name=redis redis
+docker run -d --name=db postgres:9.4
+docker run -d --name=vote -p 5000:80 --link redis:redis voting-app
+docker run -d --name=result 5001:80 --link db:db result-app
+docker run -d --name=worker --link db:db --link redis:redis worker
+```
 
 Docker run, the -i flag starts an interactive container. The -t flag creates a pseudo-TTY that attaches stdin and stdout. 
 

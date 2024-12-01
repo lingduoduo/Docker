@@ -18,13 +18,17 @@ To start a container, you can either build your Docker image or, using an existi
 
 For example, to find an image for Redis, an object-relational database system, you would use
 
-```docker search --filter=stars=3 redis```
+```
+docker search --filter=stars=3 redis
+```
 
 **Task**
 
 After identifying the image name using *search*, you can launch it using 
 
-```docker run <option> <image-name>  ```
+```
+docker run <option> <image-name>  
+```
 
 By default, Docker will run a command in the foreground. To run in the background, you need to specify the option *-d*.
 
@@ -32,15 +36,21 @@ At this stage, you will not have a local copy of the image so that it will be do
 
 All containers are given a name and id for use in other Docker commands. You can set the friendly name by providing the option *--name * when launching a container such as *--name redis*. we used the *-d* to execute the container in a detached, background, state. 
 
-```docker run -d redis:latest```
+```
+docker run -d redis:latest
+```
 
 #### Step 2 - Listing Running Containers
 
-`docker ps`  lists all running containers, the image used to start the container and uptime.
+```docker ps```  lists all running containers, the image used to start the container and uptime.
 
-```docker inspect <friendly-name|container-id>``` provides more details about a running container, such as IP address, volumes mounted and their locations and its current execution state.
+```
+docker inspect <friendly-name|container-id>
+``` provides more details about a running container, such as IP address, volumes mounted and their locations and its current execution state.
 
-```docker logs <friendly-name|container-id>``` will display messages the container has written to standard error or standard out.
+```
+docker logs <friendly-name|container-id>
+``` will display messages the container has written to standard error or standard out.
 
 #### Step 3 - Binding Ports
 
