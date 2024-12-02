@@ -269,11 +269,8 @@ Understanding the YAML Structure: API Version, Kind, Metadata, and Spec
 minikube start
 
 kubectl run nginx --image=nginx
-
 kubectl describe pod nginx
-
 kubectl run redis --image=redis123 --dry-run -o yaml
-
 kubectl run redis --image=redis123 --dry-run=client -o yaml > redis-pod.yaml
 ```
 
@@ -285,11 +282,8 @@ kubectl apply -f nginx-deployment.yaml
 # Use Yaml to create pods
 
 kubectl create -f redis-pod.yaml
-
 kubectl apply -f redis-pod.yaml
-
 kubectl create -f rc-definition.yaml
-
 kubectl create -f replicaset-definition.yaml
 ```
 
