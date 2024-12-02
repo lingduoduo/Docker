@@ -608,4 +608,20 @@ kubectl get deployments, svc
 - AWS EKS
 ```
 aws eks --region us-west-2 update-kubeconfig --name example-voting-app
+kubectl get nodes
+
+git clone https://.../example-voting-app.git
+cd example-voting-app/
+ls
+
+kubectl create -f voting-app-deploy.yaml
+kubectl create -f voting-app-service.yaml
+kubectl create -f redis-app-deployment.yaml
+kubectl create -f redis-app-service.yaml
+kubectl create -f postgres-deployment.yaml
+kubectl create -f postgres-service.yaml
+kubectl create -f worker-app-deployment.yaml
+kubectl create -f worker-app-service.yaml
+
+kubectl get deployments, svc
 ```
