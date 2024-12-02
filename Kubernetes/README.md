@@ -168,11 +168,8 @@ minikube start
 kubectl create deployment hello-node --image=registry.k8s.io/e2e-test-images/agnhost:2.39 -- /agnhost netexec --http-port=8080
 
 kubectl get deployments
-
 kubectl get pods
-
 kubectl get pods -o wide
-
 kubectl get events
 
 kubectl logs hello-node-5f76cf6ccf-br9b5
@@ -180,13 +177,9 @@ kubectl logs hello-node-5f76cf6ccf-br9b5
 kubectl expose deployment hello-node --type=LoadBalancer --port=8080
 
 kubectl get services
-
 minikube service hello-node
-
 kubectl get pod,svc -n kube-system
-
 kubectl delete service hello-node
-
 kubectl delete deployment hello-node
 
 minikube stop
