@@ -272,6 +272,23 @@ kubectl run nginx --image=nginx
 kubectl describe pod nginx
 kubectl run redis --image=redis123 --dry-run -o yaml
 kubectl run redis --image=redis123 --dry-run=client -o yaml > redis-pod.yaml
+
+
+
+kubectl create -f redis-pod.yaml
+kubectl create -f redis-service.yaml
+kubectl get pods, svc
+
+kubectl create -f postgres-pod.yaml
+kubectl create -f postfres-service.yaml
+kubectl get pods, svc
+
+kubectl create -f worker-app-pod.yaml
+kubectl create -f worker-app-service.yaml
+kubectl get pods, svc
+
+minikube service voting-service --url
+minikube service result-service --url
 ```
 
 To apply this Deployment, save the YAML content to a file (e.g.,nginx-deployment.yaml) and use the kubectl apply command: 
@@ -301,6 +318,7 @@ kubectl get replicaset
 kubectl get pods
 kubectl describe deploymnent myapp-deployment
 kubectl get all
+kubectl get pods, svc
 ```
 
 ```
