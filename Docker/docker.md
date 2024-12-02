@@ -876,125 +876,6 @@ Example
 
 ```
 
-docker run @gcp
-
-```
-docker run -it -v /Users/lingh/Git/ml-testing/_qstyx:/etc/_qstyx 
--e STYX_COMPONENT_ID=ml-testing 
--e STYX_WORKFLOW_ID=ml-testing.PushLabelJob 
--e STYX_PARAMETER=2019-10-09 
--e STYX_DOCKER_IMAGE=gcr.io/formats-insights/ml-testing 
--e STYX_DOCKER_ARGS="wrap-luigi 
---module luigi_tasks_train PushLabelJob 
---channel Push 
---date 2019-10-09
-" -e STYX_EXECUTION_ID=styx-run-5754550a-f9d9-462d-849f-95cdb55887ca 
--e STYX_TRIGGER_ID=qstyx-f3048723-9887-4cba-af51-4eece3aada2b 
--e STYX_ENVIRONMENT=qstyx 
--e STYX_LOGGING=text 
--e GOOGLE_APPLICATION_CREDENTIALS=/etc/_qstyx/gcp-sa-key.json 
--e STYX_SERVICE_ACCOUNT=ml-testing-workflow-sa@formats-insights.iam.gserviceaccount.com 
-gcr.io/formats-insights/ml-testing wrap-luigi --module luigi_tasks_train PushLabelJob --channel Push --date 2019-10-09`
-
-docker run -it -v $(pwd)/ml-testing-workflow-sa.json:/key.json -e GOOGLE_APPLICATION_CREDENTIALS=/key.json  gcr.io/formats-insights/ml-testing:latest bash -c "PYTHONPATH=python luigi --local-scheduler --module luigi_tasks_train PushLabelJob --date 2019-10-10  --channel Push"
-
-docker run -it -v $(pwd)/ml-testing-workflow-sa.json:/key.json -e GOOGLE_APPLICATION_CREDENTIALS=/key.json  gcr.io/formats-insights/ml-testing:latest bash -c "PYTHONPATH=python luigi --local-scheduler --module luigi_tasks_train PushLabelJob --date 2019-10-11  --channel Push"
-
-docker run -it -v $(pwd)/../key.json:/key.json -e GOOGLE_APPLICATION_CREDENTIALS=/key.json gcr.io/paradox-mo/tf-supervised/lingh:latest bash -c "PYTHONPATH=python luigi --local-scheduler --module tasks.luigi_task_train LabelJob --date 2019-08-13 --channel Push"
-
-docker run -it -v $(pwd)/../../key.json:/key.json -e GOOGLE_APPLICATION_CREDENTIALS=/key.json gcr.io/paradox-mo/tf-supervised/lingh:latest bash -c "PYTHONPATH=python luigi --local-scheduler --module tasks.luigi_task_train FeatureToTfRecord --channel Push --date 2019-08-11 --days-back 1 --schema-file push.pbtxt --base-path gs://mo_ml/lingh/"
-
-docker run -it -v $(pwd)/../../key.json:/key.json -e GOOGLE_APPLICATION_CREDENTIALS=/key.json gcr.io/paradox-mo/tf-supervised/lingh:latest bash -c "PYTHONPATH=python luigi --local-scheduler --module tasks.luigi_task_train FeatureToTfRecord --channel Push --date 2019-08-13 --days-back 1 --schema-file push.pbtxt --base-path gs://mo_ml/lingh/"
-
-docker run -it -v $(pwd)/../../key.json:/key.json -e GOOGLE_APPLICATION_CREDENTIALS=/key.json gcr.io/paradox-mo/tf-supervised/lingh:latest bash -c "PYTHONPATH=python luigi --local-scheduler --module tasks.luigi_task_train FeatureToTfRecord --channel Push --date 2019-08-21 --days-back 1 --schema-file push.pbtxt --base-path gs://mo_ml/lingh/"
-docker run -it -v $(pwd)/../../key.json:/key.json -e 
-
-docker run -it -v $(pwd)/../../key.json:/key.json -e 
-GOOGLE_APPLICATION_CREDENTIALS=/key.json gcr.io/paradox-mo/tf-supervised/lingh:latest bash -c "PYTHONPATH=python luigi --local-scheduler --module tasks.luigi_task_train FeatureToTfRecord --channel Push --date 2019-09-18 --days-back 1 --schema-file push.pbtxt --base-path gs://mo_ml/lingh/"
-
-
-===== Luigi Execution Summary =====
-
-Scheduled 5 tasks of which:
-* 2 complete ones were encountered:
-    - 1 CommunicationsHealth(date=2019-08-21)
-    - 1 UserCommunicationSnapshot(date=2019-08-17)
-* 3 ran successfully:
-    - 1 FeatureToTfRecord(...)
-    - 1 LabelJob(date=2019-08-21, channel=Push)
-    - 1 UserAggregatesJob(date=2019-08-17, date_label_table_to_join=2019-08-21, channel=Push)
-
-This progress looks :) because there were no failed tasks or missing dependencies
-
-===== Luigi Execution Summary =====
-
-INFO:luigi-interface:
-===== Luigi Execution Summary =====
-
-Scheduled 5 tasks of which:
-* 2 complete ones were encountered:
-    - 1 CommunicationsHealth(date=2019-08-21)
-    - 1 UserCommunicationSnapshot(date=2019-08-17)
-* 3 ran successfully:
-    - 1 FeatureToTfRecord(...)
-    - 1 LabelJob(date=2019-08-21, channel=Push)
-    - 1 UserAggregatesJob(date=2019-08-17, date_label_table_to_join=2019-08-21, channel=Push)
-
-This progress looks :) because there were no failed tasks or missing dependencies
-
-===== Luigi Execution Summary =====
-```
-
-- PreprocessingJob
-
-```
-FeatureToTfRecord(date=2019-09-18, days_back=7, channel=Push, test_run=False, schema_file=push.pbtxt, sample=True, sample_rate=0.5, over_sample_rate=1.0, base_path=gs://mo_ml/push/tf)
-
-docker run -it -v $(pwd)/../../key.json:/key.json -e GOOGLE_APPLICATION_CREDENTIALS=/key.json gcr.io/paradox-mo/tf-supervised/lingh:latest bash -c "PYTHONPATH=python luigi --local-scheduler --module tasks.luigi_task_train PreprocessingJob --date 2019-08-11 --channel Push --label-name os_level_unsub --schema-file push.pbtxt --feature-set OneHotFeatures --sample-rate 0.50 --base-path gs://mo_ml/lingh/"
-
-docker run -it -v $(pwd)/../../key.json:/key.json -e GOOGLE_APPLICATION_CREDENTIALS=/key.json gcr.io/paradox-mo/tf-supervised/lingh:latest bash -c "PYTHONPATH=python luigi --local-scheduler --module tasks.luigi_task_train PreprocessingJob --date 2019-08-12 --channel Push --label-name os_level_unsub --schema-file push.pbtxt --feature-set OneHotFeatures --sample-rate 0.50 --base-path gs://mo_ml/lingh/"
-
-docker run -it -v $(pwd)/../../key.json:/key.json -e GOOGLE_APPLICATION_CREDENTIALS=/key.json gcr.io/paradox-mo/tf-supervised/lingh:latest bash -c "PYTHONPATH=python luigi --local-scheduler --module tasks.luigi_task_train PreprocessingJob --date 2019-08-13 --channel Push --label-name os_level_unsub --schema-file push.pbtxt --feature-set OneHotFeatures --sample-rate 0.50 --base-path gs://mo_ml/lingh/"
-
-docker run -it -v $(pwd)/../../key.json:/key.json -e GOOGLE_APPLICATION_CREDENTIALS=/key.json gcr.io/paradox-mo/tf-supervised/lingh:latest bash -c "PYTHONPATH=python luigi --local-scheduler --module tasks.luigi_task_train PreprocessingJob --date 2019-08-21 --channel Push --label-name os_level_unsub --schema-file push.pbtxt --feature-set OneHotFeatures --sample-rate 0.50 --base-path gs://mo_ml/lingh/"
-
-docker run -it -v $(pwd)/../../key.json:/key.json -e GOOGLE_APPLICATION_CREDENTIALS=/key.json gcr.io/paradox-mo/tf-supervised/lingh:latest bash -c "PYTHONPATH=python luigi --local-scheduler --module tasks.luigi_task_train PreprocessingJob --date 2019-09-18 --channel Push --label-name os_level_unsub --schema-file push.pbtxt --feature-set OneHotFeatures --sample-rate 0.50 --base-path gs://mo_ml/lingh/"
-
-===== Luigi Execution Summary =====
-
-Scheduled 2 tasks of which:
-* 1 complete ones were encountered:
-    - 1 FeatureToTfRecord(...)
-* 1 ran successfully:
-    - 1 PreprocessingJob(...)
-
-This progress looks :) because there were no failed tasks or missing dependencies
-
-===== Luigi Execution Summary =====
-
-INFO:luigi-interface:
-===== Luigi Execution Summary =====
-
-Scheduled 2 tasks of which:
-* 1 complete ones were encountered:
-    - 1 FeatureToTfRecord(...)
-* 1 ran successfully:
-    - 1 PreprocessingJob(...)
-
-This progress looks :) because there were no failed tasks or missing dependencies
-
-===== Luigi Execution Summary =====
-
-Outputs -
-
-gsutil ls gs://mo_ml/lingh/preprocessing/pdx_mo.Push.os_level_unsub.PreprocessingV1.OneHotFeatures/2019-08-21
-
-gs://mo_ml/lingh/preprocessing/pdx_mo.Push.os_level_unsub.PreprocessingV1.OneHotFeatures/2019-08-21/20190827T190136.586152-1a00748f68d8/training/transformed_metadata/schema.pbtxt
-
-gs://mo_ml/lingh/preprocessing/pdx_mo.Push.os_level_unsub.PreprocessingV1.OneHotFeatures/2019-08-21/20190827T190136.586152-1a00748f68d8/transformed_metadata/schema.pbtxt \
-
-```
-
 **Commands for Creating Docker Files**
 
 | Command        | Description                                                  |
@@ -1097,8 +978,6 @@ Commands:
 Run 'docker COMMAND --help' for more information on a command.  
 运行docker命令在帮助可以获取更多信息
 ```
-
-
 
 ### 目录
 

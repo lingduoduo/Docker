@@ -266,8 +266,6 @@ kubectl describe pod nginx
 kubectl run redis --image=redis123 --dry-run -o yaml
 kubectl run redis --image=redis123 --dry-run=client -o yaml > redis-pod.yaml
 
-
-
 kubectl create -f redis-pod.yaml
 kubectl create -f redis-service.yaml
 kubectl get pods, svc
@@ -544,6 +542,11 @@ Imagine an online streaming platform gearing up for the premiere of a highly ant
 - Cost optimization - Scale applications up or down based on demand
 - What is Cluster Auto Scaling, how is it different from HPA / VPA?
 
+```
+kubectl scale deployment voting-app-deploy --replicaas=3
+kubectl get deployments voting-app-deploy
+kubectl get pods
+```
 
 Introduction for Container Orchestration
 
@@ -575,44 +578,34 @@ Understanding and Using Containers
 
 - Containers are the isolated runtime environments where the application is running. By using the namespaces the containers can be offered as a strictly isolated environment.
 
-  ```
-  ➜  Docker git:(master) docker --version
-  Docker version 20.10.2, build 2291f61
-  
-  ➜  Docker git:(master) launchctl list | grep -i docker
-  -	0	com.docker.helper
-  445	0	com.docker.docker.43364
-  
-  ➜  Docker git:(master) launchctl list com.docker.docker.43364
-  {
-  	"LimitLoadToSessionType" = "Aqua";
-  	"Label" = "com.docker.docker.43364";
-  	"TimeOut" = 30;
-  	"OnDemand" = true;
-  	"LastExitStatus" = 0;
-  	"PID" = 445;
-  	"Program" = "/Applications/Docker.app/Contents/MacOS/Docker";
-  	"ProgramArguments" = (
-  		"/Applications/Docker.app/Contents/MacOS/Docker";
-  	);
-  	"PerJobMachServices" = {
-  		"com.apple.tsm.portname" = mach-port-object;
-  		"com.apple.coredrag" = mach-port-object;
-  		"com.apple.axserver" = mach-port-object;
-  	};
-  };
-  
-  ➜  Docker git:(master) brew install pstree
-  ➜  Docker git:(master) pstree -p 445
-  ➜  Docker git:(master) ✗ echo hello from docker  >> ./var/www/index.html
-  ➜  Docker git:(master) ✗ docker run -d -p 8080:80 --name="myapache" -v /var/www/html:/var/www/html httpd
-  831f786f605bc3640e7e0248d6a00453c38b312adb6ba08f235a29102815d598
-  ➜  Docker git:(master) ✗ docker ps
-  CONTAINER ID   IMAGE     COMMAND              CREATED          STATUS          PORTS                  NAMES
-  831f786f605b   httpd     "httpd-foreground"   39 seconds ago   Up 38 seconds   0.0.0.0:8080->80/tcp   myapache
-  ➜  Docker git:(master) ✗ curl http://localhost:8080
-  <html><body><h1>It works!</h1></body></html>
-  
-  ➜  Docker git:(master) ✗ docker run -it busybox
-  ```
-  And ctrl-p, ctrl-q to disconnect and keep it running
+Kubernetes-As-A-Service
+- Provide provisions VMs
+- Provide installs Kubernetes
+- Provide maintains VMs
+- Google Container Engine (GKE)
+
+```
+gcloud container clusters get-credentials example-voting-app --zone us-central1-c --project example-voting-app-283506
+kubectl get nodes
+git clone https://.../example-voting-app.git
+cd example-voting-app/
+cd k8s-specifications/
+ls
+
+kubectl create -f voting-app-deploy.yaml
+kubectl create -f voting-app-service.yaml
+kubectl create -f redis-app-deployment.yaml
+kubectl create -f redis-app-service.yaml
+kubectl create -f postgres-deployment.yaml
+kubectl create -f postgres-service.yaml
+kubectl create -f worker-app-deployment.yaml
+kubectl create -f worker-app-service.yaml
+
+kubectl get deployments, svc
+
+```
+
+- AWS EKS
+```
+aws eks --region us-west-2 update-kubeconfig --name example-voting-app
+```
