@@ -171,7 +171,7 @@ docker image inspect hello-world | jq .[].Config.Env
 ]
 
 Here’s the startup command on the container:
-
+```
 docker image inspect hello-world | jq .[].Config.Cmd
 
 [
@@ -179,9 +179,9 @@ docker image inspect hello-world | jq .[].Config.Cmd
  "/hello"
 
 ]
-
+```
 Here are the layers associated with the image:
-
+```
 docker image inspect hello-world | jq .[].RootFS.Layers
 
 [
@@ -189,7 +189,7 @@ docker image inspect hello-world | jq .[].RootFS.Layers
  "sha256:f999ae22f308fea973e5a25b57699b5daf6b0f1150ac2a5c2ea9d7fecee50fdf"
 
 ]
-
+```
 Every Docker image has an associated tag. Tags typically include names and version labels. While it is not mandatory to associate a version tag with a Docker image name, these tags make it easier to roll back to previous versions. Without a tag name, Docker must fetch the image with the latest tag. You can also provide a tag name to force-fetch a tagged image.
 
 Docker Store lists the different tags associated with the image. If you’re looking for a specific tag/version, it’s best to check Docker Store. Figure [2-3](https://learning.oreilly.com/library/view/practical-docker-with/9781484237847/html/463857_1_En_2_Chapter.xhtml#Fig3) shows a typical tag listing of an image.
