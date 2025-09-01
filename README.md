@@ -162,6 +162,7 @@ Let’s look at the available Docker images. To do this, type the following comm
 
 The **docker inspect** command provides a lot of information about the image. Of importance are the image properties **Env**, **Cmd**, and **Layers**, which tell us about these environment variables. They tell us which executable runs when the container is started and the layers associated with these environment variables.
 
+```
 docker image inspect hello-world | jq .[].Config.Env
 
 [
@@ -169,8 +170,10 @@ docker image inspect hello-world | jq .[].Config.Env
  "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 ]
+```
 
 Here’s the startup command on the container:
+
 ```
 docker image inspect hello-world | jq .[].Config.Cmd
 
@@ -180,7 +183,9 @@ docker image inspect hello-world | jq .[].Config.Cmd
 
 ]
 ```
+
 Here are the layers associated with the image:
+
 ```
 docker image inspect hello-world | jq .[].RootFS.Layers
 
@@ -190,6 +195,7 @@ docker image inspect hello-world | jq .[].RootFS.Layers
 
 ]
 ```
+
 Every Docker image has an associated tag. Tags typically include names and version labels. While it is not mandatory to associate a version tag with a Docker image name, these tags make it easier to roll back to previous versions. Without a tag name, Docker must fetch the image with the latest tag. You can also provide a tag name to force-fetch a tagged image.
 
 Docker Store lists the different tags associated with the image. If you’re looking for a specific tag/version, it’s best to check Docker Store. Figure [2-3](https://learning.oreilly.com/library/view/practical-docker-with/9781484237847/html/463857_1_En_2_Chapter.xhtml#Fig3) shows a typical tag listing of an image.
