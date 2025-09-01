@@ -118,7 +118,9 @@ docker run
 docker exec
 
 ```
-Docker run ubuntu echo hello world
+docker info
+
+docker run ubuntu echo hello world
 ```
 
 ##### Docker API
