@@ -118,8 +118,6 @@ docker run
 docker exec
 
 ```
-docker info
-
 docker run ubuntu echo hello world
 ```
 
@@ -128,16 +126,19 @@ docker run ubuntu echo hello world
 Docker also provides an API for interacting with the Docker Engine. This is particularly useful if there’s a need to create or manage containers from within applications. Almost every operation supported by the Docker CLI can be done via the API.
 
 The simplest way to get started by Docker API is to use curl to send an API request. For Windows Docker hosts, we can reach the TCP endpoint:
-
+```
 curl http://localhost:2375/images/json
 
 [{"Containers":-1,"Created":1511223798,"Id":"sha256:f2a91732366c0332ccd7afd2a5c4ff2b9af81f549370f7a19acd460f87686bc7","Labels":null,"ParentId":"","RepoDigests":["hello-world@sha256:66ef312bbac49c39a89aa9bcc3cb4f3c9e7de3788c944158df3ee0176d32b751"],"RepoTags":["hello-world:latest"],"SharedSize":-1,"Size":1848,"VirtualSize":1848}]
+```
 
 On Linux and Mac, the same effect can be achieved by using curl to send requests to the UNIX socket:
 
+```
 curl --unix-socket /var/run/docker.sock -X POST http://images/json
 
 [{"Containers":-1,"Created":1511223798,"Id":"sha256:f2a91732366c0332ccd7afd2a5c4ff2b9af81f549370f7a19acd460f87686bc7","Labels":null,"ParentId":"","RepoDigests":["hello-world@sha256:66ef312bbac49c39a89aa9bcc3cb4f3c9e7de3788c944158df3ee0176d32b751"],"RepoTags":["hello-world:latest"],"SharedSize":-1,"Size":1848,"VirtualSize":1848}]
+```
 
 #### Docker Compose
 
@@ -149,7 +150,9 @@ The most common use case for Docker Compose is to run applications and their dep
 
 Open a terminal window and type the following command:
 
-docker info 
+```
+docker info
+```
 
 #### Working with Docker Images
 
@@ -191,6 +194,7 @@ Every Docker image has an associated tag. Tags typically include names and versi
 
 Docker Store lists the different tags associated with the image. If you’re looking for a specific tag/version, it’s best to check Docker Store. Figure [2-3](https://learning.oreilly.com/library/view/practical-docker-with/9781484237847/html/463857_1_En_2_Chapter.xhtml#Fig3) shows a typical tag listing of an image.
 
+```
 docker pull nginx:1.12-alpine-perl
 
 docker pull docker-private.registry:1337/nginx
@@ -198,9 +202,11 @@ docker pull docker-private.registry:1337/nginx
 docker login docker-private.registry:1337 - If the registry needs authentication, you can log in to the registry by typing docker login:
 
 docker run -p 80:80 nginx
+```
 
 To list all the running containers, you can type docker ps - docker ps
 
+```
 docker stop <container-id>
 
 docker ps shows the active, running containers
@@ -208,3 +214,4 @@ docker ps shows the active, running containers
 docker ps -a list all the containers
 
 docker rm <container-id>  remove the containers 
+```
