@@ -63,3 +63,11 @@ docker volume create openclaw-data
 
 ```
 
+```
+docker exec -it openclaw sh -lc "openclaw devices list --json"
+docker exec -it openclaw openclaw devices approve 32af94ae563ee86b43f3761a367b851762163c71cd53b5b6c5e187647b9c0c7b
+```
+
+https://clawhub.ai/
+
+
