@@ -1,24 +1,57 @@
-## Step 1: Generate your first chart
-The best way to get started with a new chart is to use the helm create command to scaffold out an example we can build on. Use this command to create a new chart named mychart in a new directory:
+## Deploy a model image with Helm
 
-```
-helm create mychart
-```
+The chart in `Helm-Chart/mychart` is set up for a containerized model-serving application. It lets you reuse the Docker image you already built, then deploy it to Kubernetes with Helm.
 
-### Templates
+### 1. Build and push your image
 
-service.yaml
-
-```
-helm install mychart --dry-run --debug ./mychart
-
-helm install mychart --dry-run --debug ./mychart --set service.internalPort=8080
+```bash
+docker build -t <registry>/<image>:<tag> .
+docker push <registry>/<image>:<tag>
 ```
 
-Values
-The template in service.yaml makes use of the Helm-specific objects .Chart and .Values.. 
-- objects .Chart provides metadata about the chart to your definitions such as the name, or version. 
-- objects .Values is a key element of Helm charts, used to expose configuration that can be set at the time of deployment. The defaults for this object are defined in the values.yaml file. 
+### 2. Create your values file
 
-Try changing the default value for service.internalPort and execute another dry-run, you should find that the targetPort in the Service and the containerPort in the Deployment changes. The service.internalPort value is used here to ensure that the Service and Deployment objects work together correctly. The use of templating can greatly reduce boilerplate and simplify your definitions.
+Start from the included example:
 
+```bash
+cp Helm-Chart/mychart/values-model-example.yaml Helm-Chart/mychart/my-values.yaml
+```
+
+Update these fields for your model service:
+
+- `image.repository` and `image.tag` to point at your pushed Docker image
+- `container.port`, `container.command`, and `container.args` to match how your server starts
+- `model.name` and `model.path` so the pod exposes your model metadata through env vars
+- `service.port` and probe paths to match your application endpoints
+- `persistence.*` if your model files should be mounted from a PVC instead of being baked into the image
+
+### 3. Render manifests locally
+
+```bash
+helm template model-release ./Helm-Chart/mychart -f ./Helm-Chart/mychart/my-values.yaml
+```
+
+### 4. Install to Kubernetes
+
+```bash
+helm upgrade --install model-release ./Helm-Chart/mychart \
+  --namespace model-serving \
+  --create-namespace \
+  -f ./Helm-Chart/mychart/my-values.yaml
+```
+
+### 5. Verify the deployment
+
+```bash
+kubectl get all -n model-serving
+kubectl describe deployment model-release-mychart -n model-serving
+kubectl logs -n model-serving deploy/model-release-mychart
+```
+
+### Chart features
+
+- Configurable container image, port, command, and args
+- Built-in `MODEL_NAME` and `MODEL_PATH` environment variables
+- Optional ConfigMap and Secret-based environment injection
+- Optional PersistentVolumeClaim for model files
+- Optional HPA and Ingress support
