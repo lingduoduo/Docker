@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+env:
+  IMAGE_REPOSITORY: ${{ vars.IMAGE_REPOSITORY || 'ghcr.io/example/model-server' }}
+  CHART_PATH: Helm-Chart/mychart
+  RELEASE_NAME: model-release
+  KUBE_NAMESPACE: model-serving
+
+jobs:
+  validate-helm:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v5
+        with:
+          version: v3.15.4
+
+      - name: Validate Helm chart
+        env:
+          DEPLOY_ENVIRONMENT: staging
+          IMAGE_REPOSITORY: ${{ vars.IMAGE_REPOSITORY || 'ghcr.io/example/model-server' }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          VALUES_FILE="${CHART_PATH}/values-${DEPLOY_ENVIRONMENT}.yaml"
+
+          if [ ! -f "${VALUES_FILE}" ]; then
+            echo "Values file ${VALUES_FILE} does not exist"
+            exit 1
+          fi
+
+          helm lint "${CHART_PATH}" \
+            -f "${VALUES_FILE}" \
+            --set "image.repository=${IMAGE_REPOSITORY}" \
+            --set "image.tag=${IMAGE_TAG}"
+
+          helm template "${RELEASE_NAME}" "${CHART_PATH}" \
+            --namespace "${KUBE_NAMESPACE}" \
+            -f "${VALUES_FILE}" \
+            --set "image.repository=${IMAGE_REPOSITORY}" \
+            --set "image.tag=${IMAGE_TAG}" >/dev/null

@@ -2,15 +2,14 @@
 
 This repo is focused on deployment. Model training, image build, and image publishing are expected to happen in another repo or pipeline. This repo consumes an existing container image reference and deploys it to Kubernetes.
 
-### CD
+### CI and CD
 
-The workflow file [cd.yml](/Users/linghuang/Git/Model-Deployment/.github/workflows/cd.yml) does this:
+The workflow files do this:
 
-1. validates the Helm chart on pushes to `main` and `master`
-2. reads an existing image repository and tag
-3. deploys with Helm to Kubernetes on manual `workflow_dispatch`
-4. supports `staging` and `production`
-5. optionally creates a second canary Helm release in production
+1. [ci.yml](/Users/linghuang/Git/Model-Deployment/.github/workflows/ci.yml) validates the Helm chart on pushes to `main` and `master` and on pull requests
+2. [cd.yml](/Users/linghuang/Git/Model-Deployment/.github/workflows/cd.yml) performs a manual Helm deployment with `workflow_dispatch`
+3. CD supports `staging` and `production`
+4. CD optionally creates a second canary Helm release in production
 
 The deploy logic is in [deploy_with_helm.sh](/Users/linghuang/Git/Model-Deployment/deploy/deploy_with_helm.sh).
 
@@ -62,7 +61,7 @@ Important:
 - the secret name must be exactly `KUBE_CONFIG_DATA`
 - if you use GitHub Environments such as `staging` and `production`, add the secret to each environment that runs this workflow
 - a differently named secret such as `Kube_Canfig_data` will not be picked up by the workflow
-- push-based validation does not require `KUBE_CONFIG_DATA`; the secret is only required for manual deployment runs
+- CI validation does not require `KUBE_CONFIG_DATA`; the secret is only required for manual CD runs
 
 Example for generating the value locally:
 
