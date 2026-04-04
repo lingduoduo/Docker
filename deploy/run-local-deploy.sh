@@ -14,6 +14,7 @@ LIVENESS_PATH="${LIVENESS_PATH:-/health}"
 READINESS_PATH="${READINESS_PATH:-/health}"
 
 CURRENT_CONTEXT="$(kubectl config current-context 2>/dev/null || true)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 if [ "${CURRENT_CONTEXT}" = "minikube" ]; then
   IMAGE_PULL_POLICY="${IMAGE_PULL_POLICY:-Never}"
@@ -50,4 +51,4 @@ if [ "${CURRENT_CONTEXT}" = "minikube" ]; then
   echo "  or: minikube image load ${IMAGE_REPOSITORY}:${IMAGE_TAG}"
 fi
 
-bash ci/deploy_with_helm.sh
+bash "${SCRIPT_DIR}/deploy_with_helm.sh"
