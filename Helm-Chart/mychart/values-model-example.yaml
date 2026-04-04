@@ -3,7 +3,7 @@ image:
   tag: "1.0.0"
 
 container:
-  port: 8000
+  port: 8080
   command:
     - python
   args:
@@ -13,7 +13,7 @@ container:
     - --host
     - 0.0.0.0
     - --port
-    - "8000"
+    - "8080"
 
 model:
   name: sentiment-classifier
@@ -25,7 +25,7 @@ env:
 
 service:
   type: ClusterIP
-  port: 8000
+  port: 8080
 
 readinessProbe:
   enabled: true

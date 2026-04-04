@@ -61,6 +61,9 @@ persistence:
   size: 10Gi
 
 service:
+  # ClusterIP is the recommended default.
+  # Kubernetes will load-balance across healthy pod replicas behind this Service.
+  # Use Ingress for external traffic and advanced routing. Use LoadBalancer only when needed.
   type: ClusterIP
   port: 8080
   annotations: {}

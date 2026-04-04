@@ -257,6 +257,140 @@ Understanding the YAML Structure: API Version, Kind, Metadata, and Spec
 
  - Spec: Specifies the desired state of the Deployment, including pod template and replicas.
 
+## Docker to Kubernetes command mapping
+
+If your model-serving container already works locally with Docker:
+
+```bash
+docker run -p 8080:8080 <registry>/<image>:<tag>
+
+curl http://localhost:8080/health
+
+curl -X POST http://localhost:8080/predict \
+  -H "Content-Type: application/json" \
+  -d '{"user_id":"u1","top_k":5}'
+```
+
+then the Kubernetes version in this repo is:
+
+### 1. Deploy the same image with Helm
+
+```bash
+helm upgrade --install model-release ./Helm-Chart/mychart \
+  --namespace model-serving \
+  --create-namespace \
+  -f ./Helm-Chart/mychart/values-staging.yaml \
+  --set image.repository=<registry-or-local-image> \
+  --set image.tag=<tag> \
+  --set container.port=8080 \
+  --set service.port=8080
+```
+
+### 2. Inspect the deployment
+
+```bash
+kubectl get deploy,pods,svc -n model-serving
+kubectl describe deployment model-release-mychart -n model-serving
+kubectl logs -n model-serving deploy/model-release-mychart
+```
+
+### 3. Access it locally with kubectl
+
+```bash
+kubectl port-forward -n model-serving svc/model-release-mychart 8080:8080
+```
+
+### 4. Reuse the same curl commands
+
+```bash
+curl http://localhost:8080/health
+
+curl -X POST http://localhost:8080/predict \
+  -H "Content-Type: application/json" \
+  -d '{"user_id":"u1","top_k":5}'
+```
+
+### 5. Helpful command translation
+
+- `docker run -p 8080:8080 ...` -> `helm upgrade --install ...` + `kubectl port-forward`
+- `docker logs <container>` -> `kubectl logs -n model-serving deploy/model-release-mychart`
+- `docker exec -it <container> sh` -> `kubectl exec -it -n model-serving deploy/model-release-mychart -- sh`
+
+### 6. About load balancing
+
+Recommended default in this repo:
+
+- `Deployment` runs multiple replicas
+- `Service` with `type: ClusterIP` load-balances traffic across healthy pods
+- `Ingress` is used when you need external access, TLS, canary routing, or shadow routing
+
+For local testing, `kubectl port-forward` is the closest equivalent to `docker run -p`.
+
+## Raw manifest first test
+
+If you want to test Kubernetes first before using Helm, use these raw manifests:
+
+- [local-model-deployment.yaml](/Users/linghuang/Git/Model-Deployment/Kubernetes/local-model-deployment.yaml)
+- [local-model-service.yaml](/Users/linghuang/Git/Model-Deployment/Kubernetes/local-model-service.yaml)
+
+They assume:
+
+- image: `ling-mlops-sandbox:latest`
+- container port: `8080`
+- health endpoint: `/health`
+- local cluster image access, so `imagePullPolicy: Never`
+
+### Local test steps
+
+1. Make sure the image exists in your local cluster runtime.
+
+For Minikube, the most reliable way is:
+
+```bash
+eval $(minikube -p minikube docker-env)
+cd /Users/linghuang/Git/Recommendation/TFRecommenders-MLops-Sandbox
+docker build -t ling-mlops-sandbox:latest .
+docker image ls | grep ling-mlops-sandbox
+```
+
+2. Apply the raw manifests:
+
+```bash
+kubectl apply -f /Users/linghuang/Git/Model-Deployment/Kubernetes/local-model-deployment.yaml
+kubectl apply -f /Users/linghuang/Git/Model-Deployment/Kubernetes/local-model-service.yaml
+```
+
+3. Check the workload:
+
+```bash
+kubectl get deploy,pods,svc
+kubectl describe deployment local-model-deployment
+kubectl logs deploy/local-model-deployment
+```
+
+4. Port-forward the service:
+
+```bash
+kubectl port-forward svc/local-model-service 8080:8080
+```
+
+5. Reuse the same curl commands:
+
+```bash
+curl http://localhost:8080/health
+
+curl -X POST http://localhost:8080/predict \
+  -H "Content-Type: application/json" \
+  -d '{"user_id":"u1","top_k":5}'
+```
+
+6. Clean up when done:
+
+```bash
+kubectl delete -f /Users/linghuang/Git/Model-Deployment/Kubernetes/local-model-service.yaml
+kubectl delete -f /Users/linghuang/Git/Model-Deployment/Kubernetes/local-model-deployment.yaml
+```
+
 
 ```
 minikube start
