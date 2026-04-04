@@ -6,10 +6,11 @@ This repo is focused on deployment. Model training, image build, and image publi
 
 The workflow file [cd.yml](/Users/linghuang/Git/Model-Deployment/.github/workflows/cd.yml) does this:
 
-1. reads an existing image repository and tag
-2. deploys with Helm to Kubernetes
-3. supports `staging` and `production`
-4. optionally creates a second canary Helm release in production
+1. validates the Helm chart on pushes to `main` and `master`
+2. reads an existing image repository and tag
+3. deploys with Helm to Kubernetes on manual `workflow_dispatch`
+4. supports `staging` and `production`
+5. optionally creates a second canary Helm release in production
 
 The deploy logic is in [deploy_with_helm.sh](/Users/linghuang/Git/Model-Deployment/deploy/deploy_with_helm.sh).
 
@@ -55,6 +56,19 @@ Helm values were added for:
 - `KUBE_CONFIG_DATA`: base64-encoded kubeconfig
 - `IMAGE_REPOSITORY`: repository to push your model image to
 - `REGISTRY_HOST`: optional registry host reference for your own conventions
+
+Important:
+
+- the secret name must be exactly `KUBE_CONFIG_DATA`
+- if you use GitHub Environments such as `staging` and `production`, add the secret to each environment that runs this workflow
+- a differently named secret such as `Kube_Canfig_data` will not be picked up by the workflow
+- push-based validation does not require `KUBE_CONFIG_DATA`; the secret is only required for manual deployment runs
+
+Example for generating the value locally:
+
+```bash
+base64 < ~/.kube/config | tr -d '\n'
+```
 
 ### About canary and shadow deployment
 

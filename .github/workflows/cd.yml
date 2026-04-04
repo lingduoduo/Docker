@@ -51,26 +51,55 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Set up kubectl
-        uses: azure/setup-kubectl@v5
-        with:
-          version: v1.30.0
-
       - name: Set up Helm
         uses: azure/setup-helm@v5
         with:
           version: v3.15.4
 
-      - name: Validate kubeconfig secret
+      - name: Validate Helm chart
         env:
+          DEPLOY_ENVIRONMENT: ${{ github.event.inputs.environment || 'staging' }}
+          IMAGE_REPOSITORY: ${{ github.event.inputs.image_repository || vars.IMAGE_REPOSITORY || 'ghcr.io/example/model-server' }}
+          IMAGE_TAG: ${{ github.event.inputs.image_tag || github.sha }}
+        run: |
+          VALUES_FILE="${CHART_PATH}/values-${DEPLOY_ENVIRONMENT}.yaml"
+
+          if [ ! -f "${VALUES_FILE}" ]; then
+            echo "Values file ${VALUES_FILE} does not exist"
+            exit 1
+          fi
+
+          helm lint "${CHART_PATH}" \
+            -f "${VALUES_FILE}" \
+            --set "image.repository=${IMAGE_REPOSITORY}" \
+            --set "image.tag=${IMAGE_TAG}"
+
+          helm template "${RELEASE_NAME}" "${CHART_PATH}" \
+            --namespace "${KUBE_NAMESPACE}" \
+            -f "${VALUES_FILE}" \
+            --set "image.repository=${IMAGE_REPOSITORY}" \
+            --set "image.tag=${IMAGE_TAG}" >/dev/null
+
+      - name: Set up kubectl
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        uses: azure/setup-kubectl@v5
+        with:
+          version: v1.30.0
+
+      - name: Validate kubeconfig secret
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        env:
+          DEPLOY_ENVIRONMENT_NAME: ${{ github.event.inputs.environment || 'staging' }}
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
         run: |
           if [ -z "${KUBE_CONFIG_DATA}" ]; then
-            echo "KUBE_CONFIG_DATA secret is not set for this GitHub environment."
+            echo "KUBE_CONFIG_DATA secret is not set for the GitHub environment '${DEPLOY_ENVIRONMENT_NAME}'."
+            echo "Create an environment secret named KUBE_CONFIG_DATA and store a base64-encoded kubeconfig in it."
             exit 1
           fi
 
       - name: Configure kubeconfig
+        if: ${{ github.event_name == 'workflow_dispatch' }}
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
         run: |
@@ -78,6 +107,7 @@ jobs:
           echo "${KUBE_CONFIG_DATA}" | base64 --decode > "${HOME}/.kube/config"
 
       - name: Deploy with Helm
+        if: ${{ github.event_name == 'workflow_dispatch' }}
         env:
           DEPLOY_ENVIRONMENT: ${{ github.event.inputs.environment || 'staging' }}
           DEPLOY_STRATEGY: ${{ github.event.inputs.strategy || 'standard' }}
