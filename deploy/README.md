@@ -11,18 +11,18 @@ The workflow file [cd.yml](/Users/linghuang/Git/Model-Deployment/.github/workflo
 3. supports `staging` and `production`
 4. optionally creates a second canary Helm release in production
 
-The deploy logic is in [deploy_with_helm.sh](/Users/linghuang/Git/Model-Deployment/ci/deploy_with_helm.sh).
+The deploy logic is in [deploy_with_helm.sh](/Users/linghuang/Git/Model-Deployment/deploy/deploy_with_helm.sh).
 
 ### Run locally on macOS
 
-Use [run-local-deploy.sh](/Users/linghuang/Git/Model-Deployment/scripts/run-local-deploy.sh) for a one-command local deployment:
+Use [run-local-deploy.sh](/Users/linghuang/Git/Model-Deployment/deploy/run-local-deploy.sh) for a one-command local deployment:
 
 ```bash
-chmod +x scripts/run-local-deploy.sh ci/deploy_with_helm.sh
+chmod +x deploy/run-local-deploy.sh deploy/deploy_with_helm.sh
 export IMAGE_REPOSITORY=ghcr.io/<your-user>/<your-image>
 export IMAGE_TAG=<tag>
 export DEPLOY_ENVIRONMENT=staging
-./scripts/run-local-deploy.sh
+./deploy/run-local-deploy.sh
 ```
 
 Optional variables:

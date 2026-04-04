@@ -90,13 +90,13 @@ If `minikube image ls` shows nothing, the load did not complete successfully.
 
 ```bash
 brew install helm kubectl
-chmod +x scripts/run-local-deploy.sh ci/deploy_with_helm.sh
+chmod +x deploy/run-local-deploy.sh deploy/deploy_with_helm.sh
 
 cd /Users/linghuang/Git/Model-Deployment
 export IMAGE_REPOSITORY=ling-mlops-sandbox
 export IMAGE_TAG=latest
 export DEPLOY_ENVIRONMENT=staging
-./scripts/run-local-deploy.sh
+./deploy/run-local-deploy.sh
 ```
 
 This flow:

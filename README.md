@@ -163,8 +163,12 @@ This confirms the same working setup through Helm:
 - `Service` with `ClusterIP` load-balances internally across pod replicas
 - `Ingress` or gateway handles external access, TLS, and advanced traffic routing
 
+### AWS helper layout
+
+For AWS-related deployment helpers, use a structure that separates generic stateless utilities from service-specific integrations. A recommended layout is documented in the [deployment guide](/Users/linghuang/Git/Model-Deployment/deploy/README.md) under `AWS utility functions`, including folders for `util`, shared `aws` wrappers, and service areas such as `athena`, `cloudformation`, `cloudwatch`, `glue`, `personalize`, `rekognition`, and `sagemaker`.
+
 ### Main entry points
 
 - [Helm chart guide](/Users/linghuang/Git/Model-Deployment/Helm-Chart/README.md)
-- [CD guide](/Users/linghuang/Git/Model-Deployment/CI-CD/README.md)
+- [Deployment guide](/Users/linghuang/Git/Model-Deployment/deploy/README.md)
 - [Raw Kubernetes guide](/Users/linghuang/Git/Model-Deployment/Kubernetes/README.md)
