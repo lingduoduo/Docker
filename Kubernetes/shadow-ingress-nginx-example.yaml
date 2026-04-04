@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: model-shadow-mirror
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "20m"
+    nginx.ingress.kubernetes.io/mirror-target: http://model-release-canary.model-serving.svc.cluster.local$request_uri
+    nginx.ingress.kubernetes.io/mirror-request-body: "on"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: model.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: model-release
+                port:
+                  number: 8080

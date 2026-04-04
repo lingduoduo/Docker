@@ -1,0 +1,26 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/example/model-server
+  tag: latest
+
+nameOverride: canary
+
+model:
+  name: production-model-canary
+  path: /models/model
+
+service:
+  type: ClusterIP
+  port: 8080
+
+podLabels:
+  track: canary
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 512Mi
+  limits:
+    cpu: "1"
+    memory: 1Gi
