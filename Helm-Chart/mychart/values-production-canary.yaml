@@ -16,6 +16,10 @@ service:
 
 podLabels:
   track: canary
+  version: canary
+
+podAnnotations:
+  canary: "true"
 
 resources:
   requests:
@@ -24,3 +28,33 @@ resources:
   limits:
     cpu: "1"
     memory: 1Gi
+
+# Health checks for canary
+startupProbe:
+  enabled: true
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 0
+  periodSeconds: 10
+  failureThreshold: 30
+
+livenessProbe:
+  enabled: true
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+readinessProbe:
+  enabled: true
+  httpGet:
+    path: /ready
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 2

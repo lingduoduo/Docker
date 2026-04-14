@@ -20,9 +20,57 @@ resources:
     cpu: "2"
     memory: 2Gi
 
+# Health check configuration for production
+livenessProbe:
+  enabled: true
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+readinessProbe:
+  enabled: true
+  httpGet:
+    path: /ready
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 2
+
+startupProbe:
+  enabled: true
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 0
+  periodSeconds: 10
+  failureThreshold: 30
+
 autoscaling:
   enabled: true
   minReplicas: 3
   maxReplicas: 6
   targetCPUUtilizationPercentage: 75
   targetMemoryUtilizationPercentage: 80
+
+# Enable pod disruption budget for HA
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 2
+
+# Security context for production
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  fsGroup: 1000
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  capabilities:
+    drop:
+      - ALL
