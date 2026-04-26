@@ -156,11 +156,3 @@ General tuning guidance:
 - Raise `MAX_BATCH_SIZE` when your GPU has KV-cache headroom and you want higher tokens/sec
 - Use the benchmark script at multiple concurrency levels to find the p95/throughput knee
 
----
-
-## Resume Bullet Template
-
-After running real benchmarks, replace numbers with your measured results:
-
-> Built a FastAPI + vLLM LLM serving platform with dynamic batching, KV-cache-aware inference, quantization experiments, and Prometheus observability; improved throughput by X×, reduced p95 latency by Y%, and lowered GPU memory usage by Z% under controlled benchmark workloads.
-

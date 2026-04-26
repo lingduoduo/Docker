@@ -9,12 +9,7 @@ Use this repo for:
 - environment-specific deployment values
 - rollout patterns such as canary and shadow deployment
 
-Use another repo for:
-
-- model training
-- model evaluation
-- Docker image build and publish
-- application source code for the model server
+![Architecture](LLM-Inference-vLLM/architecture.png)
 
 ### Deployment flow
 
@@ -172,3 +167,4 @@ For AWS-related deployment helpers, use a structure that separates generic state
 - [Helm chart guide](/Users/linghuang/Git/Model-Deployment/Helm-Chart/README.md)
 - [Deployment guide](/Users/linghuang/Git/Model-Deployment/deploy/README.md)
 - [Raw Kubernetes guide](/Users/linghuang/Git/Model-Deployment/Kubernetes/README.md)
+
