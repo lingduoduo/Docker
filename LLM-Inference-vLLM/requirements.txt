@@ -1,0 +1,4 @@
+-r requirements-cpu.txt
+vllm>=0.6.6
+transformers>=4.47.0
+accelerate>=1.2.0

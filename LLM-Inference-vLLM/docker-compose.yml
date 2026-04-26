@@ -1,0 +1,10 @@
+services:
+  llm-api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    environment:
+      USE_MOCK_LLM: "true"
+      MODEL_NAME: "facebook/opt-125m"
+    ports:
+      - "8000:8000"
