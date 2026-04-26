@@ -9,8 +9,6 @@ Use this repo for:
 - environment-specific deployment values
 - rollout patterns such as canary and shadow deployment
 
-![Architecture](LLM-Inference-vLLM/architecture.png)
-
 ### Deployment flow
 
 1. Build the model-serving image in another repo or pipeline.

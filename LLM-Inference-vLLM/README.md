@@ -12,6 +12,8 @@ This repo is designed as a resume/interview project for LLM infrastructure roles
 
 > Default model is intentionally small so you can run locally or on a modest GPU. You can switch to Llama/Qwen/Mistral models later.
 
+![Architecture](architecture.png)
+
 ---
 
 ## Project Structure
